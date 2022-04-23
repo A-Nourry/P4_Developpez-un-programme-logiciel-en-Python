@@ -1,8 +1,10 @@
 from controllers.base import Controller
+from views.player import PlayerView
 
 
 def main():
-    game = Controller()
+    view = PlayerView
+    game = Controller(view)
     game.run()
 
 
