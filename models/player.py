@@ -1,5 +1,5 @@
 class Player:
-    def __init__(self, first_name, last_name, birth_date, gender, rank: int):
+    def __init__(self, first_name, last_name, birth_date, gender, rank: int = 1):
         """_summary_
 
         Args:
@@ -20,11 +20,3 @@ class Player:
             f"{self.first_name} {self.last_name}, {self.sex}, "
             f"né(e) le {self.birth_date} (rang {self.rank})"
         )
-
-
-"""class PlayerList(list):
-    def append(self, object):
-
-        if not isinstance(object, Player):
-            return ValueError("Vous ne pouvez ajouter que des joueurs !")
-        return super().append(object)"""
