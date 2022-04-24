@@ -1,5 +1,7 @@
 from models.player import Player
 
+# from models.tournament import Tournament
+
 
 class Controller:
     def __init__(self, view):
@@ -10,13 +12,11 @@ class Controller:
         self.player_list = []
 
     def add_player(self):
-        first_name = self.view.prompt_first_name()
-        last_name = self.view.prompt_last_name()
-        birth_date = self.view.prompt_birth_date()
-        gender = self.view.prompt_gender()
-        rank = self.view.prompt_rank()
+        new_player = self.view.prompt_new_player()
 
-        player = Player(first_name, last_name, birth_date, gender, rank)
+        player = Player(
+            new_player[0], new_player[1], new_player[2], new_player[3], new_player[4]
+        )
         self.player_list.append(player)
 
     def run(self):
