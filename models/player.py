@@ -17,6 +17,6 @@ class Player:
 
     def __str__(self) -> str:
         return (
-            f"{self.first_name} {self.last_name}, {self.sex}, "
+            f"{self.first_name} {self.last_name}, {self.gender}, "
             f"né(e) le {self.birth_date} (rang {self.rank})"
         )
