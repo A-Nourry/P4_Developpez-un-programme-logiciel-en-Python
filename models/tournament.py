@@ -11,11 +11,8 @@ class Tournament:
         self.MAX_NUMBER_PLAYER = max_number_player
         self.rounds = rounds
 
-    def add_player_to_dict(self, player):
-
-        for i in range(self.MAX_NUMBER_PLAYER):
-
-            self.players[f"Joueur {i + 1}"] = player
+    def add_player_to_dict(self, player_number, player):
+        self.players[player_number] = player
 
     def add_round(self, round):
         self.rounds.append(round)
