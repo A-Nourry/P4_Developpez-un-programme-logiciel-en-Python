@@ -10,7 +10,7 @@ class Controller:
         # views
         self.view = view
 
-    def add_player(self, tournament: Tournament):
+    def add_player(self, player_number, tournament: Tournament):
         """add a new player to the player dict from a Tournament object"""
         if tournament is not None:
             new_player = self.view.prompt_new_player()
@@ -23,7 +23,7 @@ class Controller:
                 rank=new_player["rank"],
             )
 
-            tournament.add_player_to_dict(player)
+            tournament.add_player_to_dict(player_number, player)
 
             return True
 
@@ -72,18 +72,19 @@ class Controller:
         # Players creation
         print(f"AJOUT DES {tournament.MAX_NUMBER_PLAYER} JOUEURS")
         for i in range(tournament.MAX_NUMBER_PLAYER):
+            player_number = f"Joueur {i + 1}"
             print("JOUEUR", i + 1)
-            self.add_player(tournament)
+            self.add_player(player_number, tournament)
 
         # Rounds
-        for rounds in tournament.rounds:
-            print(f"TOUR {rounds}")
-            new_round = self.new_round(f"TOUR {rounds}")
-            print(f"génération des paires de joueurs pour le tour {rounds}...")
+        for rounds in range(int(tournament.rounds)):
+            print(f"TOUR {rounds + 1}")
+            new_round = self.new_round(f"TOUR {rounds + 1}")
+            print("Affrontement des joueurs...")
+            input("Appuyer sur ENTRER pour continuer...")
+            print(f"Fin du tour {rounds + 1}, entrez les resultats: ")
             pairs = self.generate_pairs(tournament.players)
-            print(pairs)
 
-            print("génération des matchs...")
             for pair in pairs:
                 self.add_match(pair, new_round)
 
