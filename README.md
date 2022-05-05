@@ -5,6 +5,17 @@
 # Application d'organisateur de tournois d'échecs
 
 Cette application permet de créer des tournois entre plusieurs joueurs et de générer des rapports.
+
+## Comment organiser un tournoi ?
+- Avant de commencer, vous devez charger ou créer une liste de joueurs (8 joueurs minimum).
+- Ensuite vous devez créer un tournoi, choisir le nombre de tours, puis attribuer 8 joueurs à celui-ci.
+- Une fois le tournoi créé et selectionné, vous aller pouvoir démarrer le tournoi ce qui exécutera un nombre de tour préalablement défini.
+- A chaque tours, le programme générera des paires de joueurs suivant leur classement. Ensuite, à la fin de chaque tours, vous pourrez entrer les résultats de chaque matchs.
+
+Une fois le tournoi terminé, vous aurez la possibilité d'afficher les différents rapports du tournoi, de le rejouer, d'en créer un nouveau ou d'en selectionner un autre.
+
+Pour plus de précisions, veuillez vous référer à la notice d'utilisation qui suit.
+
 #
 
 # Notice d'utilisation:
@@ -16,6 +27,7 @@ Une fois le programme lancé, vous aurez accès à différents menus. Voici une 
 ## Sommaire:
 - Menu principal
   - Menu Tournoi
+     - Nouveau tournoi
      - Liste des tournois
         - Menu du tournoi selectionné
            - Démarrer le tournoi
@@ -23,7 +35,6 @@ Une fois le programme lancé, vous aurez accès à différents menus. Voici une 
            - Tours
            - Matchs
            - Description
-     - Ajouter un tournoi
   - Menu Joueurs
     - Liste des joueurs
     - Ajouter un joueur
