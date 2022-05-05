@@ -15,8 +15,14 @@ class Player:
         self.gender = gender
         self.rank = rank
 
+    def display_player(self):
+        return {
+            "Prénom": self.first_name,
+            "Nom": self.last_name,
+            "Date de naissance": self.birth_date,
+            "Sexe": self.gender,
+            "Classement": self.rank,
+        }
+
     def __str__(self) -> str:
-        return (
-            f"{self.first_name} {self.last_name}, {self.gender}, "
-            f"né(e) le {self.birth_date} (rang {self.rank})"
-        )
+        return f"{self.first_name} {self.last_name}"
