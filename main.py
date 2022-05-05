@@ -1,10 +1,16 @@
 from controllers.base import Controller
 from views.base import UserView
+from views.menu import Menu
 
 
 def main():
+    # Views
     view = UserView
-    game = Controller(view)
+    menu = Menu
+
+    # Controller
+    game = Controller(view, menu)
+
     game.run()
 
 
