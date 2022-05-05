@@ -5,6 +5,7 @@ class Tournament:
 
         self.players = {}
         self.rounds = []
+        self.description = ""
 
         self.name = name
         self.location = location
