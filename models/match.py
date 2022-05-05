@@ -15,4 +15,4 @@ class Match:
         return player_one_result, player_two_result
 
     def __str__(self):
-        return f"{self.player_one} affronte {self.player_two}"
+        return f"{self.player_one} contre {self.player_two}"
