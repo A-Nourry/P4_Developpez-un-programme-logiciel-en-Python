@@ -19,9 +19,9 @@ Pour plus de précisions, veuillez vous référer à la notice d'utilisation qui
 #
 
 # Notice d'utilisation :
-Pour démarrer le programme il suffit d'exécuter le fichier main.py du code d'application.
+Pour démarrer le programme il suffit d'exécuter le fichier ***main.py*** du code d'application.
 
-Une fois le programme lancé, vous aurez accès à différents menus. Voici une description de chacun de ceux-là :
+Une fois le programme lancé, vous aurez accès à différents menus dont voici une description :
 #
 
 ## Sommaire:
