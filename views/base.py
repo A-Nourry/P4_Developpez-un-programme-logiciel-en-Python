@@ -45,6 +45,41 @@ class UserView:
             "round": tournament_rounds,
         }
 
-    def prompt_description():
-        tournament_description = input("Description du tournoi: ")
+    def prompt_player_score(match_player):
+        player_score = ""
+
+        while True:
+            try:
+                player_score = float(input(f"Score de {match_player}: "))
+                if player_score > 1:
+                    raise ValueError()
+                break
+            except ValueError:
+                print(
+                    "Vous devez saisir l'un de ces scores : 1 pour le gagnant, 0 pour le perdant, 0.5 si match nul"
+                )
+
+        return player_score
+
+    def prompt_player_rank():
+
+        rank = ""
+
+        while True:  # Rank value must be between 1 and 8
+            try:
+                rank = int(input("Veuillez saisir le nouveau classement du joueur: "))
+                if not 1 <= rank <= 8:
+                    raise ValueError()
+                break
+            except ValueError:
+                print("Attention ! Vous devez saisir un entier entre 1 et 8 !")
+
+        return rank
+
+    def prompt_description(tournament):
+        print("------------------------")
+        print("Description du tournoi: ")
+        tournament_description = input(tournament.description)
+        print("------------------------")
+        input("Appuyer sur ENTRER pour valider")
         return tournament_description
