@@ -1,6 +1,23 @@
 ## Sommaire:
-- Application d'organisateur de tournois d'échecs.
-- Générer un nouveau fichier flake8-html.
+- [Application d'organisateur de tournois d'échecs](#application-dorganisateur-de-tournois-déchecs)
+  - [Comment organiser un tournoi ?](#comment-organiser-un-tournoi-)
+- [Notice d'utilisation :](#notice-dutilisation-)
+  - [Menu principal](#menu-principal)
+  - [1. Menu Tournoi](#1-menu-tournoi)
+    - [1.1 Liste des tournois](#11-liste-des-tournois)
+      - [1.1.1 Menu du tournoi selectionné](#111-menu-du-tournoi-selectionné)
+        - [Démarrer le tournoi](#démarrer-le-tournoi)
+        - [Joueurs](#joueurs)
+        - [Tours](#tours)
+        - [Matches](#matches)
+        - [Description](#description)
+    - [1.2 Nouveau tournoi](#12-nouveau-tournoi)
+  - [2. Menu Joueurs](#2-menu-joueurs)
+    - [2.1 Liste des joueurs](#21-liste-des-joueurs)
+    - [2.2 Ajouter un joueur](#22-ajouter-un-joueur)
+  - [3. Menu Sauvegarder](#3-menu-sauvegarder)
+  - [4. Menu Charger](#4-menu-charger)
+- [Générer un nouveau fichier flake8-html](#générer-un-nouveau-fichier-flake8-html)
 
 # Application d'organisateur de tournois d'échecs
 
@@ -16,31 +33,14 @@ Une fois le tournoi terminé, vous aurez la possibilité d'afficher les différe
 
 Pour plus de précisions, veuillez vous référer à la notice d'utilisation qui suit.
 
-#
+
 
 # Notice d'utilisation :
 Pour démarrer le programme il suffit d'exécuter le fichier ***main.py*** du code d'application.
 
 Une fois le programme lancé, vous aurez accès à différents menus dont voici une description :
-#
 
-## Sommaire:
-- Menu principal
-  - Menu Tournoi
-     - Nouveau tournoi
-     - Liste des tournois
-        - Menu du tournoi sélectionné
-           - Démarrer le tournoi
-           - Joueurs
-           - Tours
-           - Matchs
-           - Description
-  - Menu Joueurs
-    - Liste des joueurs
-    - Ajouter un joueur
-  - Menu Sauvegarder
-  - Menu Charger
-#
+
 ## Menu principal
 ```
 --------------
@@ -86,7 +86,7 @@ Pour sélectionner un tournoi créé, il suffit d'entrer le choix qui correspond
 
 Pour revenir au menu des tournois choisissez **Retour**.
 
-### 1.1.1 Menu du tournoi selectionné
+#### 1.1.1 Menu du tournoi selectionné
 ```
 ---------------------------------------
 MENU DU TOURNOI : *Tournoi sélectionné*
@@ -105,6 +105,17 @@ MENU DU TOURNOI : *Tournoi sélectionné*
 - 4 -- Permet de voir le rapport des matchs joué du tournoi sélectionné.
 - 5 -- Permet de saisir ou de modifier la description du tournoi sélectionné.
 - 6 -- Permet de revenir à la liste des tournois.
+- 
+##### Démarrer le tournoi
+*à venir...*
+##### Joueurs
+*à venir...*
+##### Tours
+*à venir...*
+##### Matches
+*à venir...*
+##### Description
+*à venir...*
 
 ### 1.2 Nouveau tournoi
 Lorsque vous souhaitez créer un nouveau tournoi, plusieurs informations vous seront demandées :
@@ -124,6 +135,21 @@ Nombre de tours:
 - Nombre de tours : entrez le nombre de tours pour ce tournoi. Vous devez au minimum mettre 1.
 
 *à finir...*
+
+## 2. Menu Joueurs
+*à venir...*
+
+### 2.1 Liste des joueurs
+*à venir...*
+
+### 2.2 Ajouter un joueur
+*à venir...*
+
+## 3. Menu Sauvegarder
+*à venir...*
+
+## 4. Menu Charger
+*à venir...*
 
 # Générer un nouveau fichier flake8-html
 
