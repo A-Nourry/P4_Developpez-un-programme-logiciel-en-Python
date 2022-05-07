@@ -39,6 +39,10 @@ class Controller:
 
         return True
 
+    def update_player_rank(self, player: Player):
+        new_player_rank = self.view.prompt_player_rank()
+        player.rank == new_player_rank
+
     def add_players_to_tournament(
         self, player_number, player: Player, tournament: Tournament
     ):
@@ -59,15 +63,17 @@ class Controller:
             print(
                 f"INSCRIPTION DES {self.current_tournament.MAX_NUMBER_PLAYER} JOUEURS"
             )
+            sleep(0.5)
             player_selection = self.menu_view(
-                "AJOUTER UN JOUEUR:", *self.players_dict.values(), "Retour"
+                "", *self.players_dict.values(), "Retour"
             )
 
             player_selection_loop = True
 
             while player_selection_loop:
+                sleep(0.5)
                 print(
-                    "Veuillez selectionner le joueur",
+                    "VEUILLEZ SELECTIONNER LE JOUEUR ",
                     len(self.current_tournament.players) + 1,
                 )
 
@@ -140,24 +146,24 @@ class Controller:
             new_round.start_timestamp()
             input(f"Appuyer sur ENTRER pour commencer le tour {rounds + 1}")
             print("Les joueurs suivant doivent s'affrontrer: ")
-            sleep(1)
+            sleep(0.5)
 
+            # new match instantiation
             for pair in pairs:
                 self.new_match(pair, new_round)
                 print(f"{str(pair[0])} contre {str(pair[1])}")
 
-            input("Appuyer sur ENTRER pour saisir les résultats")
-
+            #  Match start and score
             for matches in new_round.list_of_matches:
                 print(matches)
                 match = matches
-                match.play_match()
+                self.play_match(match)
 
-            sleep(1)
+            sleep(0.5)
             print("--------------")
             print(f"Fin du tour {rounds + 1}")
             print("--------------")
-            sleep(1)
+            sleep(0.5)
             new_round.end_timestamp()
             print(
                 "début du tour: ",
@@ -167,8 +173,8 @@ class Controller:
 
         input("Fin du tournoi. Appuyez sur ENTRER pour revenir au menu")
 
-    def add_tournament_description(self, tournament: Tournament):
-        tournament.description = self.view.prompt_description()
+    def add_tournament_description(self):
+        self.current_tournament.description = self.view.prompt_description(self.current_tournament)
 
     # Matches functions
     def new_match(self, pair_of_players, match_round: Round):
@@ -179,6 +185,11 @@ class Controller:
             match_round.add_match_to_list(match)
 
             return True
+
+    def play_match(self, match):
+        repr(match)
+        match.player_one_result = self.view.prompt_player_score(match.player_one)
+        match.player_two_result = self.view.prompt_player_score(match.player_two)
 
     # Round functions
     def new_round(self, round_number, tournament: Tournament):
@@ -329,7 +340,7 @@ class Controller:
             2: self.menu_current_tournament_players,
             3: self.menu_current_tournament_rounds,
             4: self.menu_current_tournament_matches,
-            5: self.current_tournament_description,
+            5: self.add_tournament_description,
             6: self.menu_tournament_list,
         }
 
