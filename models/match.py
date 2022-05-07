@@ -9,10 +9,16 @@ class Match:
         self.player_one = player_one
         self.player_two = player_two
 
-    def play_match(self):
-        player_one_result = input(f"Score de {self.player_one}: ")
-        player_two_result = input(f"Score de {self.player_two}: ")
-        return player_one_result, player_two_result
+        self.player_one_result = None
+        self.player_two_result = None
+
+        self.match = ([self.player_one, self.player_one_result], [self.player_two, self.player_two_result])
+
+    def display_match_result(self):
+        return {
+            self.player_one: self.player_one_result,
+            self.player_two: self.player_two_result
+        }
 
     def __str__(self):
         return f"{self.player_one} contre {self.player_two}"
