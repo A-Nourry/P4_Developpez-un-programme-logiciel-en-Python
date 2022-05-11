@@ -61,13 +61,13 @@ class UserView:
 
         return player_score
 
-    def prompt_player_rank():
+    def prompt_player_rank(player):
 
         rank = ""
 
         while True:  # Rank value must be between 1 and 8
             try:
-                rank = int(input("Veuillez saisir le nouveau classement du joueur: "))
+                rank = int(input(f"Veuillez saisir le nouveau classement de {player} : "))
                 if not 1 <= rank <= 8:
                     raise ValueError()
                 break
@@ -79,7 +79,24 @@ class UserView:
     def prompt_description(tournament):
         print("------------------------")
         print("Description du tournoi: ")
-        tournament_description = input(tournament.description)
+        print(tournament.description)
+        tournament_description = input()
         print("------------------------")
         input("Appuyer sur ENTRER pour valider")
         return tournament_description
+
+    def prompt_warning_number_players(max_number_players, tournament_players):
+        print("Attention : ")
+        print(
+            f"Pour inscrire des joueurs à ce tournoi, vous devez avoir créé au minimum {max_number_players} "
+            f"joueurs dans le menu principal avant de continuer ! "
+            f"({len(tournament_players)}/{max_number_players})"
+        )
+        print("")
+        input("Appuyer sur ENTRER pour retourner au menu")
+
+    def display_message(message):
+        print(message)
+
+    def input_message(message):
+        input(message)
