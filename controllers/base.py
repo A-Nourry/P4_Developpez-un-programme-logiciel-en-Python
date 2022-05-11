@@ -14,6 +14,28 @@ class Controller:
         # Menus
         self.menu_view = menu_view
 
+        self.MAIN_MENU = {
+            1: self.menu_tournament,
+            2: self.menu_players,
+            3: self.menu_save,
+            4: self.menu_load,
+        }
+
+        self.MENU_TOURNAMENT = {
+            1: self.menu_tournament_list,
+            2: self.new_tournament,
+            3: self.main_menu,
+        }
+
+        self.MENU_CURRENT_TOURNAMENT = {
+            1: self.start_tournament,
+            2: self.menu_current_tournament_players,
+            3: self.menu_current_tournament_rounds,
+            4: self.menu_current_tournament_matches,
+            5: self.add_tournament_description,
+            6: self.menu_tournament_list,
+        }
+
         # Views
         self.view = view
 
@@ -39,9 +61,11 @@ class Controller:
 
         return True
 
-    def update_player_rank(self, player: Player):
-        new_player_rank = self.view.prompt_player_rank()
-        player.rank == new_player_rank
+    def update_player_rank(self):
+        for players in self.current_tournament.players.values():
+            print(players)
+            new_player_rank = self.view.prompt_player_rank(players)
+            players.rank = new_player_rank
 
     def add_players_to_tournament(
         self, player_number, player: Player, tournament: Tournament
@@ -49,32 +73,44 @@ class Controller:
         """add selected Player instance to a selected Tournament instance"""
         tournament.add_player_to_dict(player_number, player)
 
-    def select_tournament_players(self):
+    def check_number_of_global_players(self):
         if len(self.players_dict) < self.current_tournament.MAX_NUMBER_PLAYER:
-            print("Attention : ")
-            print(
-                f"Vous devez avoir créé ou chargé au moins {self.current_tournament.MAX_NUMBER_PLAYER} "
-                f"joueurs dans le menu principal avant de continuer ! "
-                f"({len(self.players_dict)}/{self.current_tournament.MAX_NUMBER_PLAYER})"
+            self.view.prompt_warning_number_players(
+                self.current_tournament.MAX_NUMBER_PLAYER, self.players_dict
             )
-            print("")
-            input("Appuyer sur ENTRER pour retourner au menu")
+            return False
         else:
-            print(
-                f"INSCRIPTION DES {self.current_tournament.MAX_NUMBER_PLAYER} JOUEURS"
+            return True
+
+    def check_number_of_tournament_players(self):
+        if (
+            len(self.current_tournament.players)
+            < self.current_tournament.MAX_NUMBER_PLAYER
+        ):
+            self.view.display_message(
+                f"Vous devez avoir inscrit {self.current_tournament.MAX_NUMBER_PLAYER} "
+                f"joueurs avant de commencer le tournoi !"
             )
-            sleep(0.5)
-            player_selection = self.menu_view(
-                "", *self.players_dict.values(), "Retour"
+            self.view.input_message("Appuyer sur ENTRER pour continuer")
+            return False
+        else:
+            return True
+
+    def select_tournament_players(self):
+        if self.check_number_of_global_players():
+
+            player_selection = self.menu_view("", *self.players_dict.values(), "Retour")
+
+            self.view.display_message(
+                f"INSCRIPTION DES {self.current_tournament.MAX_NUMBER_PLAYER} JOUEURS"
             )
 
             player_selection_loop = True
 
             while player_selection_loop:
                 sleep(0.5)
-                print(
-                    "VEUILLEZ SELECTIONNER LE JOUEUR ",
-                    len(self.current_tournament.players) + 1,
+                self.view.display_message(
+                    f"VEUILLEZ SELECTIONNER LE JOUEUR {len(self.current_tournament.players) + 1}"
                 )
 
                 player_choice = player_selection.start_menu()
@@ -96,7 +132,7 @@ class Controller:
                             selection_loop = False
 
                         else:
-                            print(
+                            self.view.display_message(
                                 "Ce joueur a déjà été selectionné. Veuillez en choisir un autre"
                             )
                             break
@@ -120,6 +156,8 @@ class Controller:
     # Tournament functions
     def new_tournament(self):
         """instantiate a Tournament object and add it to the controller's tournament dictionnary"""
+        sleep(0.3)
+        self.view.display_message("Création d'un nouveau tournoi : ")
         new_tournament = self.view.prompt_for_tournament()
 
         tournament = Tournament(
@@ -130,51 +168,59 @@ class Controller:
             round_number=new_tournament["round"],
         )
 
-        self.tournament_dict[len(self.tournament_dict)] = tournament
+        self.tournament_dict[len(self.tournament_dict) + 1] = tournament
 
         return tournament
 
     def start_tournament(self):
-        for rounds in range(int(self.current_tournament.round_number)):
-            new_round = self.new_round(
-                f"Round {rounds + 1}",
-                self.current_tournament,
+        if self.check_number_of_tournament_players():
+            for rounds in range(int(self.current_tournament.round_number)):
+                new_round = self.new_round(
+                    f"Round {rounds + 1}",
+                    self.current_tournament,
+                )
+                pairs = self.generate_pairs(self.current_tournament.players)
+
+                self.view.display_message(f"TOUR {rounds + 1}")
+                new_round.start_timestamp()
+                self.view.input_message(
+                    f"Appuyer sur ENTRER pour commencer le tour {rounds + 1}"
+                )
+                self.view.display_message("Les joueurs suivant doivent s'affrontrer: ")
+                sleep(0.5)
+
+                # new match instantiation
+                for pair in pairs:
+                    self.new_match(pair, new_round)
+                    self.view.display_message(f"{str(pair[0])} contre {str(pair[1])}")
+
+                #  Match start and score
+                for matches in new_round.list_of_matches:
+                    self.view.display_message(matches)
+                    match = matches
+                    self.play_match(match)
+
+                sleep(0.5)
+                self.view.display_message("--------------")
+                self.view.display_message(f"Fin du tour {rounds + 1}")
+                self.view.display_message("--------------")
+                sleep(0.5)
+                new_round.end_timestamp()
+                self.view.display_message(f"début du tour: {new_round.start_time}")
+                self.view.display_message(f"Fin du tour: {new_round.end_time}")
+                sleep(0.4)
+                self.view.display_message("Mise à jour du classement")
+                sleep(0.4)
+                self.update_player_rank()
+
+            self.view.input_message(
+                "Fin du tournoi. Appuyez sur ENTRER pour revenir au menu"
             )
-            pairs = self.generate_pairs(self.current_tournament.players)
-
-            print(f"TOUR {rounds + 1}")
-            new_round.start_timestamp()
-            input(f"Appuyer sur ENTRER pour commencer le tour {rounds + 1}")
-            print("Les joueurs suivant doivent s'affrontrer: ")
-            sleep(0.5)
-
-            # new match instantiation
-            for pair in pairs:
-                self.new_match(pair, new_round)
-                print(f"{str(pair[0])} contre {str(pair[1])}")
-
-            #  Match start and score
-            for matches in new_round.list_of_matches:
-                print(matches)
-                match = matches
-                self.play_match(match)
-
-            sleep(0.5)
-            print("--------------")
-            print(f"Fin du tour {rounds + 1}")
-            print("--------------")
-            sleep(0.5)
-            new_round.end_timestamp()
-            print(
-                "début du tour: ",
-                new_round.start_time,
-            )
-            print("Fin du tour: ", new_round.end_time)
-
-        input("Fin du tournoi. Appuyez sur ENTRER pour revenir au menu")
 
     def add_tournament_description(self):
-        self.current_tournament.description = self.view.prompt_description(self.current_tournament)
+        self.current_tournament.description = self.view.prompt_description(
+            self.current_tournament
+        )
 
     # Matches functions
     def new_match(self, pair_of_players, match_round: Round):
@@ -194,7 +240,7 @@ class Controller:
     # Round functions
     def new_round(self, round_number, tournament: Tournament):
         """instantiate Round object add it to the round list from tournament object and return it"""
-        if Tournament is not None:
+        if tournament is not None:
             new_round = Round(f"Round + {round_number}")
             tournament.add_round(new_round)
 
@@ -203,13 +249,6 @@ class Controller:
     #  Menu functions
     def main_menu(self):
         """Start and display the main menu : MENU PRINCIPAL"""
-
-        MAIN_MENU = {
-            1: self.menu_tournament,
-            2: self.menu_players,
-            3: self.menu_save,
-            4: self.menu_load,
-        }
 
         loop = True
 
@@ -224,8 +263,8 @@ class Controller:
             )
             user_input = menu.start_menu()
 
-            if user_input <= len(MAIN_MENU):
-                MAIN_MENU[user_input]()
+            if user_input in self.MAIN_MENU.keys():
+                self.MAIN_MENU[user_input]()
                 continue
 
             else:
@@ -233,11 +272,7 @@ class Controller:
 
     def menu_tournament(self):
         """Starts and displays the sub menu : MENU TOURNOI"""
-        MENU_TOURNAMENT = {
-            1: self.menu_tournament_list,
-            2: self.new_tournament,
-            3: self.main_menu,
-        }
+
         loop = True
 
         while loop:
@@ -249,16 +284,19 @@ class Controller:
             )
             user_input = menu.start_menu()
 
-            if user_input <= len(MENU_TOURNAMENT):
-                MENU_TOURNAMENT[user_input]()
+            if user_input <= len(self.MENU_TOURNAMENT):
+                self.MENU_TOURNAMENT[user_input]()
                 continue
 
-            elif user_input > len(MENU_TOURNAMENT):
+            elif user_input > len(self.MENU_TOURNAMENT):
                 loop = False
 
     def menu_players(self):
         menu_player = self.menu_view(
-            "MENU JOUEURS", "Liste des joueurs", "Ajouter un joueur", "Retour"
+            "MENU JOUEURS",
+            "Liste des joueurs",
+            "Ajouter un joueur",
+            "Retour",
         )
 
         loop = True
@@ -268,7 +306,9 @@ class Controller:
 
             if menu_choice == 1:  # Show global player list
                 if not self.players_dict:
-                    print("Il n'y a pas encore de joueurs de créé !")
+                    self.view.display_message(
+                        "Il n'y a pas encore de joueurs de créé !"
+                    )
                     continue
                 else:
                     current_players = self.players_dict.values()
@@ -279,13 +319,15 @@ class Controller:
                         for key, value in player_dict.items():
                             info_players[key].append(value)
 
-                    print(tabulate(info_players, headers="keys"))
-                    input("Appuyer sur ENTRER pour revenir au menu")
+                    self.view.display_message(tabulate(info_players, headers="keys"))
+                    self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
 
             elif menu_choice == 2:  # Add a player
                 while True:
                     self.add_player(len(self.players_dict) + 1)
-                    user_input = input("Voulez vous ajouter un autre joueur ? (y/n)")
+                    user_input = self.view.input_message(
+                        "Voulez vous ajouter un autre joueur ? (y/n)"
+                    )
 
                     if user_input == "y":
                         continue
@@ -302,14 +344,14 @@ class Controller:
         pass
 
     def menu_tournament_list(self):
-        print(self.tournament_dict)
 
         self.current_tournament = None
 
         loop = True
 
         if not self.tournament_dict:
-            print("il n'y a pas encore de tournois de créé")
+            self.view.display_message("il n'y a pas encore de tournois de créé !")
+            self.view.input_message("Appuyer sur ENTRER pour continuer")
             loop = False
 
         else:
@@ -322,11 +364,11 @@ class Controller:
 
                 user_input = menu.start_menu()
 
-                if user_input <= len(self.tournament_dict):
-                    tournament_index = user_input - 1
+                if user_input in self.tournament_dict.keys():
+                    tournament_index = user_input
                     self.current_tournament = self.tournament_dict[tournament_index]
                     display_current_tournament = repr(self.current_tournament)
-                    print(display_current_tournament)
+                    self.view.display_message(display_current_tournament)
 
                     if self.current_tournament is not None:
                         self.menu_current_tournament()
@@ -335,14 +377,6 @@ class Controller:
                     self.menu_tournament()
 
     def menu_current_tournament(self):
-        MENU_CHOICES = {
-            1: self.start_tournament,
-            2: self.menu_current_tournament_players,
-            3: self.menu_current_tournament_rounds,
-            4: self.menu_current_tournament_matches,
-            5: self.add_tournament_description,
-            6: self.menu_tournament_list,
-        }
 
         loop = True
 
@@ -358,8 +392,8 @@ class Controller:
             )
             user_input = menu.start_menu()
 
-            if user_input <= len(MENU_CHOICES):
-                MENU_CHOICES[user_input]()
+            if user_input in self.MENU_CURRENT_TOURNAMENT.keys():
+                self.MENU_CURRENT_TOURNAMENT[user_input]()
                 continue
 
     def menu_current_tournament_players(self):
@@ -367,6 +401,7 @@ class Controller:
             "JOUEURS DU TOURNOI",
             "Liste des joueurs",
             "Inscription des joueurs",
+            "Mise à jour du classement",
             "Retour",
         )
 
@@ -377,7 +412,9 @@ class Controller:
 
             if user_input == 1:
                 if not self.current_tournament.players:
-                    print("Il n'y a pas encore de joueurs d'inscrit !")
+                    self.view.display_message(
+                        "Il n'y a pas encore de joueurs d'inscrit !"
+                    )
                     continue
                 else:
                     current_players = self.current_tournament.players.values()
@@ -388,13 +425,16 @@ class Controller:
                         for key, value in player_dict.items():
                             info_players[key].append(value)
 
-                    print(tabulate(info_players, headers="keys"))
-                    input("Appuyer sur ENTRER pour revenir au menu")
+                    self.view.display_message(tabulate(info_players, headers="keys"))
+                    self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
 
             elif user_input == 2:
                 self.select_tournament_players()
 
             elif user_input == 3:
+                self.update_player_rank()
+
+            elif user_input == 4:
                 loop = False
 
     def menu_current_tournament_rounds(self):
