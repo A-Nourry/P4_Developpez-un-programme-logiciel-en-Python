@@ -67,7 +67,9 @@ class UserView:
 
         while True:  # Rank value must be between 1 and 8
             try:
-                rank = int(input(f"Veuillez saisir le nouveau classement de {player} : "))
+                rank = int(
+                    input(f"Veuillez saisir le nouveau classement de {player} : ")
+                )
                 if not 1 <= rank <= 8:
                     raise ValueError()
                 break
@@ -99,4 +101,5 @@ class UserView:
         print(message)
 
     def input_message(message):
-        input(message)
+        user_input = input(message)
+        return user_input
