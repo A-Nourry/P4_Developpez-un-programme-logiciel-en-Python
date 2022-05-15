@@ -36,7 +36,7 @@ Pour plus de précisions, veuillez vous référer à la notice d'utilisation qui
 
 
 # Notice d'utilisation :
-Pour démarrer le programme il suffit d'exécuter le fichier ***main.py*** du code d'application.
+Pour démarrer le programme, suivez les [étapes suivantes](https://github.com/A-Nourry/P4_Developpez-un-programme-logiciel-en-Python/wiki#comment-d%C3%A9marrer-lapplication-de-tournoi-d%C3%A9checs) afin de pouvoir exécuter correctement le fichier ***main.py*** du code d'application.
 
 Une fois le programme lancé, vous aurez accès à différents menus.
 
