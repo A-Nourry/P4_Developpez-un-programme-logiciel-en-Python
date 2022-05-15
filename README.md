@@ -2,6 +2,7 @@
 - [Application d'organisateur de tournois d'échecs](#application-dorganisateur-de-tournois-déchecs)
   - [Comment organiser un tournoi ?](#comment-organiser-un-tournoi-)
 - [Notice d'utilisation :](#notice-dutilisation-)
+- [Description des différents menus:](#description-des-différents-menus)
   - [Menu principal](#menu-principal)
   - [1. Menu Tournoi](#1-menu-tournoi)
     - [1.1 Liste des tournois](#11-liste-des-tournois)
@@ -15,8 +16,7 @@
   - [2. Menu Joueurs](#2-menu-joueurs)
     - [2.1 Liste des joueurs](#21-liste-des-joueurs)
     - [2.2 Ajouter un joueur](#22-ajouter-un-joueur)
-  - [3. Menu Sauvegarder](#3-menu-sauvegarder)
-  - [4. Menu Charger](#4-menu-charger)
+  - [3. Menu Options](#3-menu-options)
 - [Générer un nouveau fichier flake8-html](#générer-un-nouveau-fichier-flake8-html)
 
 # Application d'organisateur de tournois d'échecs
@@ -38,8 +38,12 @@ Pour plus de précisions, veuillez vous référer à la notice d'utilisation qui
 # Notice d'utilisation :
 Pour démarrer le programme il suffit d'exécuter le fichier ***main.py*** du code d'application.
 
-Une fois le programme lancé, vous aurez accès à différents menus dont voici une description :
+Une fois le programme lancé, vous aurez accès à différents menus.
 
+Pour naviguer dans les différents menus saisissez simplement le chiffre qui correspond à votre choix et préssez la touche ENTRER.
+
+
+# Description des différents menus:
 
 ## Menu principal
 ```
@@ -65,11 +69,13 @@ MENU TOURNOI
 ------------
 1 -- Liste des tournois
 2 -- Nouveau tournoi
+3 -- Rapport des tournois
 3 -- Retour
 ```
 - 1 -- Permet de voir la liste des tournois et d'en sélectionner un.
 - 2 -- Permet de créer un nouveau tournoi
-- 3 -- Permet de retourner au menu principal
+- 3 -- Permet d'afficher un rapport des tournois créé
+- 4 -- Permet de retourner au menu principal
 
 ### 1.1 Liste des tournois
 ```
@@ -109,7 +115,19 @@ MENU DU TOURNOI : *Tournoi sélectionné*
 ##### Démarrer le tournoi
 *à venir...*
 ##### Joueurs
-*à venir...*
+```
+------------------
+JOUEURS DU TOURNOI
+------------------
+1 -- Liste des joueurs
+2 -- Inscription des joueurs
+3 -- Mise à jour du classement
+4 -- Retour
+```
+- 1 -- Permet de voir la liste des joueurs du tournoi.
+- 2 -- Permet d'inscrire les joueurs du tournoi
+- 3 -- Permet de mettre à jour les classements de chaque joueur
+- 4 -- Permet de retourner au menu du tournoi
 ##### Tours
 *à venir...*
 ##### Matches
@@ -145,10 +163,7 @@ Nombre de tours:
 ### 2.2 Ajouter un joueur
 *à venir...*
 
-## 3. Menu Sauvegarder
-*à venir...*
-
-## 4. Menu Charger
+## 3. Menu Options
 *à venir...*
 
 # Générer un nouveau fichier flake8-html
