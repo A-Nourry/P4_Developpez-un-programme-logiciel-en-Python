@@ -2,7 +2,8 @@ from datetime import datetime, date
 from tinydb import TinyDB
 
 
-round_db = TinyDB("saves/" + "round_db.json")
+db = TinyDB("db.json")
+rounds_table = db.table("rounds")
 
 
 class Round:
@@ -49,12 +50,20 @@ class Round:
 
     def save(self):
         serialized_round = {
-            "Nom": self.name,
-            "Début": self.start_time,
-            "Fin": self.end_time,
+            "name": self.name,
+            "start_time": self.start_time,
+            "end_time": self.end_time,
         }
 
-        round_db.insert(serialized_round)
+        rounds_table.insert(serialized_round)
 
     def __str__(self):
         return self.name
+
+
+def load_rounds():
+    serialized_rounds = []
+    for rounds in rounds_table:
+        serialized_rounds.append(rounds)
+
+    return serialized_rounds
