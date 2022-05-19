@@ -431,22 +431,7 @@ class Controller:
             menu_choice = menu_player.start_menu()
 
             if menu_choice == 1:  # Show global player list
-                if not self.players_dict:
-                    self.view.display_message(
-                        "Il n'y a pas encore de joueurs de créé !"
-                    )
-                    continue
-                else:
-                    current_players = self.players_dict.values()
-                    info_players = defaultdict(list)
-
-                    for player in current_players:
-                        player_dict = player.display_player()
-                        for key, value in player_dict.items():
-                            info_players[key].append(value)
-
-                    self.view.display_message(tabulate(info_players, headers="keys"))
-                    self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
+                self.report_global_players()
 
             elif menu_choice == 2:  # Add a player
                 while True:
@@ -564,22 +549,7 @@ class Controller:
             user_input = menu.start_menu()
 
             if user_input == 1:
-                if not self.current_tournament.players:
-                    self.view.display_message(
-                        "Il n'y a pas encore de joueurs d'inscrit !"
-                    )
-                    continue
-                else:
-                    current_players = self.current_tournament.players.values()
-                    info_players = defaultdict(list)
-
-                    for player in current_players:
-                        player_dict = player.display_player()
-                        for key, value in player_dict.items():
-                            info_players[key].append(value)
-
-                    self.view.display_message(tabulate(info_players, headers="keys"))
-                    self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
+                self.report_current_tournament_players()
 
             elif user_input == 2:
                 self.select_tournament_players()
@@ -589,6 +559,23 @@ class Controller:
 
             elif user_input == 4:
                 loop = False
+
+    def report_global_players(self):
+        if not self.players_dict:
+            self.view.display_message(
+                "Il n'y a pas encore de joueurs de créé !"
+            )
+        else:
+            current_players = self.players_dict.values()
+            info_players = defaultdict(list)
+
+            for player in current_players:
+                player_dict = player.display_player()
+                for key, value in player_dict.items():
+                    info_players[key].append(value)
+
+            self.view.display_message(tabulate(info_players, headers="keys"))
+            self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
 
     def report_tournaments(self):
         if not self.tournament_dict:
@@ -633,6 +620,23 @@ class Controller:
                         info_matches[key].append(value)
 
             self.view.display_message(tabulate(info_matches, headers="keys"))
+            self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
+
+    def report_current_tournament_players(self):
+        if not self.current_tournament.players:
+            self.view.display_message(
+                "Il n'y a pas encore de joueurs d'inscrit !"
+            )
+        else:
+            current_players = self.current_tournament.players.values()
+            info_players = defaultdict(list)
+
+            for player in current_players:
+                player_dict = player.display_player()
+                for key, value in player_dict.items():
+                    info_players[key].append(value)
+
+            self.view.display_message(tabulate(info_players, headers="keys"))
             self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
 
     def run(self):
