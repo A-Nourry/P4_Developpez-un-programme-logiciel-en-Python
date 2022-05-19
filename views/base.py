@@ -27,6 +27,7 @@ class UserView:
         tournament_location = input("Lieu du tournoi: ")
         tournament_date = input("Date du tournoi: ")
         tournament_rule = input("règle du tournoi ? (bullet, blitz ou speed) ")
+        tournament_description = input("Description du tournoi: ")
 
         while True:  # tournament_rounds must be an integer > 0
             try:
@@ -42,6 +43,7 @@ class UserView:
             "location": tournament_location,
             "date": tournament_date,
             "rule": tournament_rule,
+            "description": tournament_description,
             "round": tournament_rounds,
         }
 
