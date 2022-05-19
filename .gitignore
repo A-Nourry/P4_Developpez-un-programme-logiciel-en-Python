@@ -3,4 +3,5 @@ misc/
 __pycache__/
 .vscode/
 saves/
+*.json
 *.pyc
