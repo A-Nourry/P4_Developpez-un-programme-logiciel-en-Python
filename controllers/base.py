@@ -79,6 +79,8 @@ class Controller:
 
     def update_player_rank(self):
         """update player's rank of the current tournament"""
+        self.view.display_message("Mise à jour du classement")
+        sleep(0.4)
 
         input_history = []
         print(input_history)
@@ -275,47 +277,12 @@ class Controller:
                     f"Round {rounds + 1}",
                     self.current_tournament,
                 )
-                pairs = self.first_round_pairs(self.current_tournament.players)
 
-                self.view.display_message(f"TOUR {rounds + 1}")
+                round_number = rounds + 1
 
-                self.view.input_message(
-                    f"Appuyer sur ENTRER pour commencer le tour {rounds + 1}"
-                )
-                new_round.start_timestamp()
-
-                self.view.display_message("Les joueurs suivant doivent s'affrontrer: ")
-                sleep(0.5)
-
-                #  New match instantiation
-                for pair in pairs:
-                    self.new_match(pair, new_round)
-                    self.view.display_message(f"{str(pair[0])} contre {str(pair[1])}")
-
-                #  Start match and input players scores
-                for matches in new_round.list_of_matches:
-                    self.view.display_message(matches)
-
-                    match = matches
-
-                    self.view.display_message("------------------")
-                    self.view.display_message("Saisi des scores :")
-
-                    self.play_match(match)
-
-                sleep(0.5)
-                self.view.display_message("--------------")
-                self.view.display_message(f"Fin du tour {rounds + 1}")
-                self.view.display_message("--------------")
-                sleep(0.5)
-
-                new_round.end_timestamp()
-
-                self.view.display_message(f"début du tour: {new_round.start_time}")
-                self.view.display_message(f"Fin du tour: {new_round.end_time}")
-                sleep(0.4)
-                self.view.display_message("Mise à jour du classement")
-                sleep(0.4)
+                self.start_round_display(new_round, round_number)
+                self.first_round(new_round)
+                self.end_round_display(new_round, round_number)
 
                 self.update_player_rank()
 
@@ -364,6 +331,48 @@ class Controller:
             new_round.save()
 
             return new_round
+
+    def start_round_display(self, tournament_round, round_number):
+        self.view.display_message(f"TOUR {round_number}")
+
+        self.view.input_message(
+            f"Appuyer sur ENTRER pour commencer le tour {round_number}"
+        )
+        tournament_round.start_timestamp()
+
+        self.view.display_message("Les joueurs suivant doivent s'affrontrer: ")
+        sleep(0.5)
+
+    def end_round_display(self, tournament_round, round_number):
+        sleep(0.5)
+        self.view.display_message("--------------")
+        self.view.display_message(f"Fin du tour {round_number}")
+        self.view.display_message("--------------")
+        sleep(0.5)
+
+        tournament_round.end_timestamp()
+
+        self.view.display_message(f"début du tour: {tournament_round.start_time}")
+        self.view.display_message(f"Fin du tour: {tournament_round.end_time}")
+        sleep(0.4)
+
+    def first_round(self, new_round):
+        pairs = self.first_round_pairs(self.current_tournament.players)
+
+        for pair in pairs:
+            self.new_match(pair, new_round)
+            self.view.display_message(f"{str(pair[0])} contre {str(pair[1])}")
+
+        #  Start match and input players scores
+        for matches in new_round.list_of_matches:
+            self.view.display_message(matches)
+
+            match = matches
+
+            self.view.display_message("------------------")
+            self.view.display_message("Saisi des scores :")
+
+            self.play_match(match)
 
     #  Menu functions
     def main_menu(self):
