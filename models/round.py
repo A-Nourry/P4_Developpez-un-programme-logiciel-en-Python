@@ -1,16 +1,19 @@
 from datetime import datetime, date
-from tinydb import TinyDB
+from tinydb import TinyDB, Query
 
 
 db = TinyDB("db.json")
 rounds_table = db.table("rounds")
+rounds = Query()
 
 
 class Round:
-    def __init__(self, name):
+    def __init__(self, name, r_id):
+        self.name = name
+        self.r_id = r_id
+
         self.list_of_matches = []
 
-        self.name = name
         self.start_time = ""
         self.end_time = ""
 
@@ -38,8 +41,10 @@ class Round:
 
         self.end_time = time
 
-    def add_match_to_list(self, match):
-        self.list_of_matches.append(match)
+    def add_match_to_list(self, match_id, round_id):
+        self.list_of_matches.append(match_id)
+
+        self.update("list_of_matches", self.list_of_matches, round_id)
 
     def display_round(self):
         return {
@@ -51,11 +56,18 @@ class Round:
     def save(self):
         serialized_round = {
             "name": self.name,
+            "r_id": self.r_id,
+            "list_of_matches": self.list_of_matches,
             "start_time": self.start_time,
             "end_time": self.end_time,
         }
 
         rounds_table.insert(serialized_round)
+
+    def update(self, key, value, round_id):
+        print(rounds_table)
+
+        rounds_table.update({key: value}, rounds.r_id == round_id)
 
     def __str__(self):
         return self.name
