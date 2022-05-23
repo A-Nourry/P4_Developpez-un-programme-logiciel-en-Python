@@ -5,11 +5,17 @@ from time import sleep
 from models.player import Player, load_players
 from models.tournament import Tournament, load_tournaments
 from models.match import Match
-from models.round import Round
+from models.round import Round, load_rounds
 
 
 class Controller:
     def __init__(self, view, menu_view):
+        """Main controller
+
+        Args:
+            view (object): main view instance
+            menu_view (object): menu instance from view
+        """
 
         # Menus
         self.menu_view = menu_view
@@ -40,12 +46,16 @@ class Controller:
         # Data
         self.tournament_dict = {}
         self.players_dict = {}
+        self.rounds_dict = {}
+        self.matches_dict = {}
+
         self.current_tournament = None
 
     # Player functions
-    def add_player(self, player_id):
+    def add_player(self):
         """add a new player to the controller players_dict"""
         new_player = self.view.prompt_new_player()
+        new_player_id = len(self.players_dict) + 1
 
         player = Player(
             first_name=new_player["first_name"],
@@ -53,10 +63,10 @@ class Controller:
             birth_date=new_player["birth_date"],
             gender=new_player["gender"],
             rank=new_player["rank"],
-            p_id=player_id,
+            p_id=new_player_id,
         )
 
-        self.players_dict[player_id] = player
+        self.players_dict[player.p_id] = player
         player.save()
 
         return True
@@ -75,7 +85,7 @@ class Controller:
                 p_id=player["p_id"],
             )
 
-            self.players_dict[len(self.players_dict) + 1] = player
+            self.players_dict[player.p_id] = player
 
     def update_player_rank(self):
         """update player's rank of the current tournament"""
@@ -117,7 +127,7 @@ class Controller:
         tournament.add_player_id_to_dict(player_number, player_id, tournament.t_id)
 
     def check_number_of_global_players(self):
-        """check if there's an enough amount of global players to begin a tournament players selection"""
+        """check if there's an enough amount of global players to begin a tournament's player selection"""
         if len(self.players_dict) < self.current_tournament.MAX_NUMBER_PLAYER:
             self.view.prompt_warning_number_players(
                 self.current_tournament.MAX_NUMBER_PLAYER, self.players_dict
@@ -142,12 +152,11 @@ class Controller:
             return True
 
     def select_tournament_players(self):
-        if self.check_number_of_global_players():
-            self.view.display_message(
-                "Attention les scores des joueurs seront remis à 0 !"
-            )
-            self.view.input_message("Appuyer sur ENTRER pour continuer")
-
+        if (
+            self.check_number_of_global_players()
+            and len(self.current_tournament.players)
+            < self.current_tournament.MAX_NUMBER_PLAYER
+        ):
             player_selection = self.menu_view("", *self.players_dict.values(), "Retour")
 
             self.view.display_message(
@@ -296,18 +305,24 @@ class Controller:
         )
 
     # Matches functions
-    def new_match(self, pair_of_players, match_round: Round):
-        """instantiate Match object and add it to the list of matches from Round object
+    def new_match(self, player_one, player_two, match_round: Round):
+        """instantiates Match object and add it to the controller matches dict
+         and adds the match id to the list of matches of a Round object.
 
         Args:
             pair_of_players (list): list of two players
-            match_round (Round): Round object
+            match_id (Match.m_id): id of the match
+            match_round (Round): Round instance
         """
+        new_match_id = len(self.matches_dict) + 1
 
         if match_round is not None:
-            match = Match(pair_of_players[0], pair_of_players[1])
-            match_round.add_match_to_list(match)
-            # match.save()
+            match = Match(player_one.p_id, player_two.p_id, new_match_id)
+
+            match_round.add_match_to_list(match.m_id, match_round.r_id)
+            self.matches_dict[match.m_id] = match
+
+            match.save()
 
             return True
 
@@ -323,14 +338,26 @@ class Controller:
         match.player_two.score += match.player_two_score
 
     # Round functions
-    def new_round(self, round_number, tournament: Tournament):
+    def new_round(self, round_name, tournament: Tournament):
         """instantiate Round object add it to the round list from tournament object and return it"""
+        new_round_id = len(self.rounds_dict) + 1
+
         if tournament is not None:
-            new_round = Round(f"{round_number}")
-            tournament.add_round(new_round)
+            new_round = Round(round_name, new_round_id)
+            tournament.add_round(new_round.r_id, tournament.t_id)
+            self.rounds_dict[new_round.r_id] = new_round
+
             new_round.save()
 
             return new_round
+
+    def get_rounds(self):
+        rounds = load_rounds()
+
+        for new_round in rounds:
+            new_round = Round(name=new_round["name"], r_id=new_round["r_id"])
+
+            self.rounds_dict[new_round.r_id] = new_round
 
     def start_round_display(self, tournament_round, round_number):
         self.view.display_message(f"TOUR {round_number}")
@@ -360,7 +387,7 @@ class Controller:
         pairs = self.first_round_pairs(self.current_tournament.players)
 
         for pair in pairs:
-            self.new_match(pair, new_round)
+            self.new_match(pair[0], pair[1], new_round)
             self.view.display_message(f"{str(pair[0])} contre {str(pair[1])}")
 
         #  Start match and input players scores
@@ -435,7 +462,7 @@ class Controller:
 
             elif menu_choice == 2:  # Add a player
                 while True:
-                    self.add_player(len(self.players_dict) + 1)
+                    self.add_player()
                     user_input = self.view.input_message(
                         "Voulez vous ajouter un autre joueur ? (y: oui / n: non)"
                     )
@@ -503,7 +530,7 @@ class Controller:
                     tournament_index = user_input
                     self.current_tournament = self.tournament_dict[tournament_index]
                     self.get_tournament_players(self.current_tournament)
-                    print(self.current_tournament)
+                    (self.current_tournament)
 
                     if self.current_tournament is not None:
                         self.menu_current_tournament()
@@ -562,9 +589,7 @@ class Controller:
 
     def report_global_players(self):
         if not self.players_dict:
-            self.view.display_message(
-                "Il n'y a pas encore de joueurs de créé !"
-            )
+            self.view.display_message("Il n'y a pas encore de joueurs de créé !")
         else:
             current_players = self.players_dict.values()
             info_players = defaultdict(list)
@@ -624,9 +649,7 @@ class Controller:
 
     def report_current_tournament_players(self):
         if not self.current_tournament.players:
-            self.view.display_message(
-                "Il n'y a pas encore de joueurs d'inscrit !"
-            )
+            self.view.display_message("Il n'y a pas encore de joueurs d'inscrit !")
         else:
             current_players = self.current_tournament.players.values()
             info_players = defaultdict(list)
@@ -642,5 +665,6 @@ class Controller:
     def run(self):
         self.get_players()
         self.get_tournament()
+        self.get_rounds()
 
         self.main_menu()
