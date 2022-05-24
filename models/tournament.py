@@ -15,7 +15,7 @@ class Tournament:
         time_rule,
         description,
         max_number_player=8,
-        round_number=4,
+        number_of_rounds=4,
         t_id=0,
     ):
         self.name = name
@@ -24,7 +24,7 @@ class Tournament:
         self.time_rule = time_rule
         self.description = description
         self.MAX_NUMBER_PLAYER = max_number_player
-        self.round_number = round_number
+        self.number_of_rounds = number_of_rounds
         self.t_id = t_id
 
         self.players = {}
@@ -37,7 +37,7 @@ class Tournament:
             "Date": self.date,
             "Règle du temps": self.time_rule,
             "Nombre de joueurs": self.MAX_NUMBER_PLAYER,
-            "Nombre de tours": self.round_number,
+            "Nombre de tours": self.number_of_rounds,
         }
 
     def save(self):
@@ -48,7 +48,7 @@ class Tournament:
             "time_rule": self.time_rule,
             "description": self.description,
             "max_number_player": self.MAX_NUMBER_PLAYER,
-            "number_of_rounds": self.round_number,
+            "number_of_rounds": self.number_of_rounds,
             "t_id": self.t_id,
             "rounds": self.rounds,
             "players": self.players,
