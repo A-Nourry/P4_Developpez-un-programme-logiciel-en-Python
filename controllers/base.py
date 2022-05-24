@@ -4,7 +4,7 @@ from time import sleep
 
 from models.player import Player, load_players
 from models.tournament import Tournament, load_tournaments
-from models.match import Match
+from models.match import Match, load_matches
 from models.round import Round, load_rounds
 
 
@@ -76,7 +76,7 @@ class Controller:
         players = load_players()
 
         for player in players:
-            player = Player(
+            new_player = Player(
                 first_name=player["first_name"],
                 last_name=player["last_name"],
                 birth_date=player["birth_date"],
@@ -85,7 +85,7 @@ class Controller:
                 p_id=player["p_id"],
             )
 
-            self.players_dict[player.p_id] = player
+            self.players_dict[new_player.p_id] = new_player
 
     def update_player_rank(self):
         """update player's rank of the current tournament"""
@@ -108,21 +108,9 @@ class Controller:
                         raise ValueError()
 
                 except ValueError:
-                    print(
+                    self.view.display_message(
                         "Attention ! Vous avez déjà saisi ce classement pour un autre joueur !"
                     )
-
-    def add_players_to_tournament(
-        self, player_number, player_id, tournament: Tournament
-    ):
-        """add selected Player instance id to a selected Tournament instance
-
-        Args:
-            player_number (str): number of the player
-            player_id (Player.p_id): id of the player instance (Player.p_id)
-            tournament (Tournament): Tournament instance which you want to add the player
-        """
-        tournament.add_player_id_to_dict(player_number, player_id, tournament.t_id)
 
     def check_number_of_global_players(self):
         """check if there's an enough amount of global players to begin a tournament's player selection"""
@@ -150,8 +138,7 @@ class Controller:
             return True
 
     def select_tournament_players(self):
-        """Display the global list of players in a menu
-        """
+        """Display the global list of players in a menu"""
         if (
             self.check_number_of_global_players()
             and len(self.current_tournament.players)
@@ -261,12 +248,14 @@ class Controller:
             t_id=len(self.tournament_dict) + 1,
         )
 
-        self.tournament_dict[len(self.tournament_dict) + 1] = tournament
+        self.tournament_dict[tournament.t_id] = tournament
         tournament.save()
 
         return tournament
 
     def get_tournament(self):
+        """instantiate Tournament object from a dict"""
+
         tournaments = load_tournaments()
 
         for tournament in tournaments:
@@ -282,10 +271,11 @@ class Controller:
             )
 
             new_tournament.players = tournament["players"]
+            new_tournament.rounds = tournament["rounds"]
 
-        self.tournament_dict[len(self.tournament_dict) + 1] = new_tournament
+            self.tournament_dict[new_tournament.t_id] = new_tournament
 
-    def get_tournament_players(self, tournament: Tournament):
+    def instantiate_tournament_players(self, tournament: Tournament):
 
         for players, player_id in zip(tournament.players, tournament.players.values()):
             tournament.players[players] = self.players_dict[player_id]
@@ -303,9 +293,9 @@ class Controller:
 
                 round_number = rounds + 1
 
-                self.start_round_display(new_round, round_number)
+                self.start_rounds(new_round, round_number)
                 self.first_round(new_round)
-                self.end_round_display(new_round, round_number)
+                self.end_rounds(new_round, round_number)
 
                 self.update_player_rank()
 
@@ -340,7 +330,25 @@ class Controller:
 
             return True
 
+    def get_matches(self):
+        matches = load_matches()
+
+        for match in matches:
+            print(match)
+            new_match = Match(
+                player_one=match["player_one"],
+                player_two=match["player_two"],
+                m_id=match["m_id"],
+            )
+
+            self.rounds_dict[new_match.m_id] = match
+
     def play_match(self, match):
+        match = self.matches_dict[match]
+        print(self.current_tournament.players)
+        match.player_one = self.current_tournament.players[str(match.player_one)]
+        match.player_two = self.current_tournament.players[str(match.player_two)]
+
         repr(match)
 
         #  Update players score in match instance
@@ -350,6 +358,9 @@ class Controller:
         #  Update players instances scores
         match.player_one.score += match.player_one_score
         match.player_two.score += match.player_two_score
+
+        match.update('player_one_score', match.player_one.score)
+        match.update('player_two_score', match.player_two.score)
 
     # Round functions
     def new_round(self, round_name, tournament: Tournament):
@@ -361,8 +372,6 @@ class Controller:
             tournament.add_round(new_round.r_id, tournament.t_id)
             self.rounds_dict[new_round.r_id] = new_round
 
-            new_round.save()
-
             return new_round
 
     def get_rounds(self):
@@ -373,7 +382,7 @@ class Controller:
 
             self.rounds_dict[new_round.r_id] = new_round
 
-    def start_round_display(self, tournament_round, round_number):
+    def start_rounds(self, tournament_round, round_number):
         self.view.display_message(f"TOUR {round_number}")
 
         self.view.input_message(
@@ -384,7 +393,7 @@ class Controller:
         self.view.display_message("Les joueurs suivant doivent s'affrontrer: ")
         sleep(0.5)
 
-    def end_round_display(self, tournament_round, round_number):
+    def end_rounds(self, tournament_round, round_number):
         sleep(0.5)
         self.view.display_message("--------------")
         self.view.display_message(f"Fin du tour {round_number}")
@@ -392,6 +401,7 @@ class Controller:
         sleep(0.5)
 
         tournament_round.end_timestamp()
+        tournament_round.save()
 
         self.view.display_message(f"début du tour: {tournament_round.start_time}")
         self.view.display_message(f"Fin du tour: {tournament_round.end_time}")
@@ -543,7 +553,7 @@ class Controller:
                 if user_input in self.tournament_dict.keys():
                     tournament_index = user_input
                     self.current_tournament = self.tournament_dict[tournament_index]
-                    self.get_tournament_players(self.current_tournament)
+                    self.instantiate_tournament_players(self.current_tournament)
                     (self.current_tournament)
 
                     if self.current_tournament is not None:
@@ -662,8 +672,6 @@ class Controller:
             self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
 
     def current_tournament_players_report(self):
-        self.get_tournament_players(self.current_tournament)
-
         if not self.current_tournament.players:
             self.view.display_message("Il n'y a pas encore de joueurs d'inscrit !")
         else:
@@ -682,5 +690,6 @@ class Controller:
         self.get_players()
         self.get_tournament()
         self.get_rounds()
+        self.get_matches()
 
         self.main_menu()
