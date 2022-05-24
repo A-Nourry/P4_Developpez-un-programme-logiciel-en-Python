@@ -20,7 +20,7 @@ class Menu:
         print(separators)
 
         for key, value in self.menu_options.items():
-            print(f"{key} -- {value}")
+            print(f"[{key}] {value}")
 
     def start_menu(self) -> int:
         while True:
