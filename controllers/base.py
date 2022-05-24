@@ -301,12 +301,22 @@ class Controller:
 
                 print(self.current_tournament.rounds)
 
-                for rounds in self.current_tournament.rounds:
+                for rounds, number_of_rounds in zip(
+                    self.current_tournament.rounds,
+                    range(len(self.current_tournament.rounds) + 1),
+                ):
                     print(rounds)
 
-                    self.start_rounds(rounds, rounds)
-                    self.first_round(rounds)
-                    self.end_rounds(rounds, rounds)
+                    round_number = number_of_rounds + 1
+
+                    self.start_rounds(rounds, round_number)
+
+                    if round_number == 1:
+                        self.play_first_round(rounds)
+                    else:
+                        self.play_next_round(rounds)
+
+                    self.end_rounds(rounds, round_number)
 
                     self.update_player_rank()
 
@@ -429,7 +439,7 @@ class Controller:
         self.view.display_message(f"Fin du tour: {tournament_round.end_time}")
         sleep(0.4)
 
-    def first_round(self, new_round):
+    def play_first_round(self, new_round):
         pairs = self.first_round_pairs(self.current_tournament.players)
 
         for pair in pairs:
@@ -446,6 +456,9 @@ class Controller:
             self.view.display_message("Saisi des scores :")
 
             self.play_match(match)
+
+    def play_next_round(self, new_round):
+        pass
 
     def instantiate_round_matches(self, current_round: Round):
         current_round.list_of_matches = [
@@ -654,7 +667,9 @@ class Controller:
                 for key, value in player_dict.items():
                     info_players[key].append(value)
 
-            self.view.display_message(tabulate(info_players, headers="keys", tablefmt="grid"))
+            self.view.display_message(
+                tabulate(info_players, headers="keys", tablefmt="grid")
+            )
             self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
 
     def tournaments_report(self):
@@ -669,7 +684,9 @@ class Controller:
                 for key, value in tournament_dict.items():
                     info_tournaments[key].append(value)
 
-            self.view.display_message(tabulate(info_tournaments, headers="keys", tablefmt="grid"))
+            self.view.display_message(
+                tabulate(info_tournaments, headers="keys", tablefmt="grid")
+            )
             self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
 
     def current_tournament_rounds_report(self):
@@ -684,7 +701,9 @@ class Controller:
                 for key, value in round_dict.items():
                     info_rounds[key].append(value)
 
-            self.view.display_message(tabulate(info_rounds, headers="keys", tablefmt="grid"))
+            self.view.display_message(
+                tabulate(info_rounds, headers="keys", tablefmt="grid")
+            )
             self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
 
     def current_tournament_matches_report(self):
@@ -699,7 +718,9 @@ class Controller:
                     for key, value in match_dict.items():
                         info_matches[key].append(value)
 
-                self.view.display_message(tabulate(info_matches, headers="keys", tablefmt="grid"))
+                self.view.display_message(
+                    tabulate(info_matches, headers="keys", tablefmt="grid")
+                )
             self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
 
     def current_tournament_players_report(self):
@@ -714,7 +735,9 @@ class Controller:
                 for key, value in player_dict.items():
                     info_players[key].append(value)
 
-            self.view.display_message(tabulate(info_players, headers="keys", tablefmt="grid"))
+            self.view.display_message(
+                tabulate(info_players, headers="keys", tablefmt="grid")
+            )
             self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
 
     def run(self):
