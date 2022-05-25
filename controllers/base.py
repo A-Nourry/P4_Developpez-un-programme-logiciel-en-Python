@@ -85,6 +85,8 @@ class Controller:
                 p_id=player["p_id"],
             )
 
+            new_player.score = player["score"]
+
             self.players_dict[new_player.p_id] = new_player
 
     def update_player_rank(self):
@@ -102,6 +104,7 @@ class Controller:
                     if new_player_rank not in input_history:
                         input_history.append(new_player_rank)
                         players.rank = new_player_rank
+                        players.update("rank", players.rank)
                         break
 
                     elif new_player_rank in input_history:
@@ -221,6 +224,23 @@ class Controller:
         second_pair = list_of_pairs[1]
         third_pair = list_of_pairs[2]
         fourth_pair = list_of_pairs[3]
+
+        return first_pair, second_pair, third_pair, fourth_pair
+
+    def round_pairs(self, player_dict):
+        list_of_players = []
+
+        for player in player_dict.values():
+            list_of_players.append(player)
+
+        list_of_players.sort(key=lambda x: (x.score, -x.rank), reverse=True)
+
+        first_pair = (list_of_players[0], list_of_players[1])
+        second_pair = (list_of_players[2], list_of_players[3])
+        third_pair = (list_of_players[4], list_of_players[5])
+        fourth_pair = (list_of_players[6], list_of_players[7])
+
+        print(list_of_players)
 
         return first_pair, second_pair, third_pair, fourth_pair
 
@@ -384,8 +404,13 @@ class Controller:
         match.player_one.score += match.player_one_score
         match.player_two.score += match.player_two_score
 
+        #  Update match data base
         match.update("player_one_score", match.player_one.score)
         match.update("player_two_score", match.player_two.score)
+
+        # update player data
+        match.player_one.update("score", match.player_one.score)
+        match.player_two.update("score", match.player_two.score)
 
     # Round functions
     def generate_tournament_rounds(self):
@@ -458,7 +483,22 @@ class Controller:
             self.play_match(match)
 
     def play_next_round(self, new_round):
-        pass
+        pairs = self.round_pairs(self.current_tournament.players)
+
+        for pair in pairs:
+            self.new_match(pair[0], pair[1], new_round)
+            self.view.display_message(f"{str(pair[0])} contre {str(pair[1])}")
+
+        #  Start match and input players scores
+        for matches in new_round.list_of_matches:
+            self.view.display_message(matches)
+
+            match = matches
+
+            self.view.display_message("------------------")
+            self.view.display_message("Saisi des scores :")
+
+            self.play_match(match)
 
     def instantiate_round_matches(self, current_round: Round):
         current_round.list_of_matches = [
