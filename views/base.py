@@ -83,10 +83,8 @@ class UserView:
     def prompt_description(tournament):
         print("------------------------")
         print("Description du tournoi: ")
-        print(tournament.description)
         tournament_description = input()
-        print("------------------------")
-        input("Appuyer sur ENTRER pour valider")
+
         return tournament_description
 
     def prompt_warning_number_players(max_number_players, tournament_players):
