@@ -16,7 +16,7 @@ class Player:
         rank: int = 1,
         p_id=0,
     ):
-        """_summary_
+        """player instance attributes
 
         Args:
             first_name (str): first name of the player
