@@ -1,8 +1,9 @@
-from tinydb import TinyDB
+from tinydb import TinyDB, Query
 
 
 db = TinyDB("db.json")
 matches_table = db.table("matches")
+matches = Query()
 
 
 class Match:
@@ -20,7 +21,7 @@ class Match:
         self.player_one_score = 0.0
         self.player_two_score = 0.0
 
-        self.match = (
+        self.match_result = (
             [self.player_one, self.player_one_score],
             [self.player_two, self.player_two_score],
         )
@@ -35,11 +36,15 @@ class Match:
         serialized_match = {
             "player_one": self.player_one,
             "player_two": self.player_two,
+            "m_id": self.m_id,
             "player_one_score": self.player_one_score,
             "player_two_score": self.player_two_score,
         }
 
         matches_table.insert(serialized_match)
+
+    def update(self, key, value):
+        matches_table.update({key: value}, matches.m_id == self.m_id)
 
     def __str__(self):
         return f"{self.player_one} contre {self.player_two}"
