@@ -36,6 +36,11 @@ class Player:
         self.score = 0.0
 
     def display_player(self):
+        """display player instance's attributes in a dict
+
+        Returns:
+            dict: _description_
+        """
         return {
             "Prénom": self.first_name,
             "Nom": self.last_name,
@@ -46,6 +51,7 @@ class Player:
         }
 
     def save(self):
+        """save player instance attributes in the data base"""
         serialized_player = {
             "first_name": self.first_name,
             "last_name": self.last_name,
@@ -58,14 +64,13 @@ class Player:
 
         players_table.insert(serialized_player)
 
-    def load_players(self):
-        players = []
-        for player in players_table:
-            players.append(player)
-
-        return players
-
     def update(self, key, value):
+        """upadate player attributes in the data base
+
+        Args:
+            key (str): string of the player's attribute
+            value (_type_): value of the player's attribute
+        """
         players_table.update({key: value}, players.p_id == self.p_id)
 
     def __str__(self) -> str:
@@ -73,13 +78,13 @@ class Player:
 
 
 def load_players():
+    """get player instances attributes from the players table of the data base
+
+    Returns:
+        dict: player instance attributes in a dict
+    """
     players = []
     for player in players_table:
         players.append(player)
 
     return players
-
-
-def erase_player_data():
-    players_table.truncate()
-    return True
