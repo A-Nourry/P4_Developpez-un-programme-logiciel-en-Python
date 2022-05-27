@@ -9,6 +9,12 @@ rounds = Query()
 
 class Round:
     def __init__(self, name, r_id):
+        """round instance attributes
+
+        Args:
+            name (str): name of the round
+            r_id (int): id of the round
+        """
         self.name = name
         self.r_id = r_id
 
@@ -42,11 +48,22 @@ class Round:
         self.end_time = time
 
     def add_match_to_list(self, match_id, round_id):
+        """add a Match instance to the list of matches
+
+        Args:
+            match_id (int): id of a Match instance
+            round_id (int): id of a Round instance
+        """
         self.list_of_matches.append(match_id)
 
         self.update("list_of_matches", self.list_of_matches, round_id)
 
     def display_round(self):
+        """display round attributes
+
+        Returns:
+            dict: returns a dict of the round attributes
+        """
         return {
             "Nom": self.name,
             "Début": self.start_time,
@@ -54,6 +71,7 @@ class Round:
         }
 
     def save(self):
+        """save round attributes in the data base"""
         serialized_round = {
             "name": self.name,
             "r_id": self.r_id,
@@ -65,6 +83,13 @@ class Round:
         rounds_table.insert(serialized_round)
 
     def update(self, key, value, round_id):
+        """update round attributes of the data base
+
+        Args:
+            key (str): key of the data base's dict
+            value (_type_): value of the data base's dict
+            round_id (int): id of the round (round.r_id)
+        """
         rounds_table.update({key: value}, rounds.r_id == round_id)
 
     def __str__(self):
@@ -72,6 +97,11 @@ class Round:
 
 
 def load_rounds():
+    """get round attributes from the data base
+
+    Returns:
+        dict: returns a dict of rounds attributes
+    """
     serialized_rounds = []
     for rounds in rounds_table:
         serialized_rounds.append(rounds)
