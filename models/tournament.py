@@ -56,19 +56,19 @@ class Tournament:
 
         tournaments_table.insert(serialized_tournament)
 
-    def update(self, key, value, tournament_id):
+    def update(self, key, value):
 
-        tournaments_table.update({key: value}, tournaments.t_id == tournament_id)
+        tournaments_table.update({key: value}, tournaments.t_id == self.t_id)
 
-    def add_player_id_to_dict(self, player_number, player_id, tournament_id):
+    def add_player_id_to_dict(self, player_number, player_id):
         self.players[player_number] = player_id
 
-        self.update("players", self.players, tournament_id)
+        self.update("players", self.players)
 
-    def add_round(self, new_round_id, tournament_id):
+    def add_round(self, new_round_id):
         self.rounds.append(new_round_id)
 
-        self.update("rounds", self.rounds, tournament_id)
+        self.update("rounds", self.rounds)
 
     def __repr__(self):
         return f"{self.name}"
