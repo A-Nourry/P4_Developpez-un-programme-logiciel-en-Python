@@ -18,6 +18,18 @@ class Tournament:
         number_of_rounds=4,
         t_id=0,
     ):
+        """Tournament instance attributes
+
+        Args:
+            name (str): name of the tournament
+            location (str): location of the tournament
+            date (str): date of the tournament (xx/xx/xx)
+            time_rule (str): rule of the tournament (blitz, bullet or speed)
+            description (str): description of the tournament
+            max_number_player (int, optional): _description_. Defaults to 8.
+            number_of_rounds (int, optional): _description_. Defaults to 4.
+            t_id (int, optional): _description_. Defaults to 0.
+        """
         self.name = name
         self.location = location
         self.date = date
@@ -31,6 +43,11 @@ class Tournament:
         self.rounds = []
 
     def display_tournament(self):
+        """display Tournament's attributes
+
+        Returns:
+            dict: returns a dict of the Tournament's attributes
+        """
         return {
             "Nom": self.name,
             "Lieu": self.location,
@@ -41,6 +58,7 @@ class Tournament:
         }
 
     def save(self):
+        """save Tournament attributes in the data base"""
         serialized_tournament = {
             "name": self.name,
             "location": self.location,
@@ -57,15 +75,31 @@ class Tournament:
         tournaments_table.insert(serialized_tournament)
 
     def update(self, key, value):
+        """update Tournament attributes of the data base
 
+        Args:
+            key (str): key of the data base's dict
+            value (_type_): value of the data base's dict
+        """
         tournaments_table.update({key: value}, tournaments.t_id == self.t_id)
 
     def add_player_id_to_dict(self, player_number, player_id):
+        """add a player id to the Tournament's dict (self.players)
+
+        Args:
+            player_number (str): number of the player
+            player_id (int): id of a Player instance (Player.p_id)
+        """
         self.players[player_number] = player_id
 
         self.update("players", self.players)
 
     def add_round(self, new_round_id):
+        """add a round to the round list (self.rounds)
+
+        Args:
+            new_round_id (int): round id from a Round instance (Round.r_id)
+        """
         self.rounds.append(new_round_id)
 
         self.update("rounds", self.rounds)
@@ -75,6 +109,11 @@ class Tournament:
 
 
 def load_tournaments():
+    """get Tournament attributes from the data base
+
+    Returns:
+        dict: return a list of dicts, of all Tournament instances attributes
+    """
     serialized_tournaments = []
     for tournaments in tournaments_table:
         serialized_tournaments.append(tournaments)
