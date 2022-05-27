@@ -65,8 +65,6 @@ class Round:
         rounds_table.insert(serialized_round)
 
     def update(self, key, value, round_id):
-        print(rounds_table)
-
         rounds_table.update({key: value}, rounds.r_id == round_id)
 
     def __str__(self):
