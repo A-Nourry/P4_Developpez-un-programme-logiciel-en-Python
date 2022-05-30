@@ -52,7 +52,7 @@ class Tournament:
             "Nom": self.name,
             "Lieu": self.location,
             "Date": self.date,
-            "Règle du temps": self.time_rule,
+            "Règle": self.time_rule,
             "Nombre de joueurs": self.MAX_NUMBER_PLAYER,
             "Nombre de tours": self.number_of_rounds,
         }
@@ -107,15 +107,15 @@ class Tournament:
     def __repr__(self):
         return f"{self.name}"
 
+    @staticmethod
+    def load_tournaments():
+        """get Tournament attributes from the data base
 
-def load_tournaments():
-    """get Tournament attributes from the data base
+        Returns:
+            dict: return a list of dicts, of all serialized Tournament instances attributes
+        """
+        serialized_tournaments = []
+        for tournaments in tournaments_table:
+            serialized_tournaments.append(tournaments)
 
-    Returns:
-        dict: return a list of dicts, of all Tournament instances attributes
-    """
-    serialized_tournaments = []
-    for tournaments in tournaments_table:
-        serialized_tournaments.append(tournaments)
-
-    return serialized_tournaments
+        return serialized_tournaments
