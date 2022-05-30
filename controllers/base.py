@@ -534,7 +534,9 @@ class Controller:
         )
         tournament_round.start_timestamp()
 
+        self.view.display_message("------------------------------------------")
         self.view.display_message("Les joueurs suivant doivent s'affrontrer: ")
+        self.view.display_message("------------------------------------------")
         sleep(0.5)
 
     def end_rounds(self, tournament_round, round_number):
@@ -572,8 +574,6 @@ class Controller:
 
         #  Start match and input players scores
         for matches in new_round.list_of_matches:
-
-            self.view.display_message(matches)
 
             match = matches
 
