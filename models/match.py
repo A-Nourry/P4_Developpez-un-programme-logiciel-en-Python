@@ -59,15 +59,15 @@ class Match:
     def __str__(self):
         return f"{self.player_one} contre {self.player_two}"
 
+    @staticmethod
+    def load_matches():
+        """get Match attributes from the data base and return them
 
-def load_matches():
-    """get Match attributes from the data base and return them
+        Returns:
+            dict: dict of attributes
+        """
+        serialized_matches = []
+        for matches in matches_table:
+            serialized_matches.append(matches)
 
-    Returns:
-        dict: dict of attributes
-    """
-    serialized_matches = []
-    for matches in matches_table:
-        serialized_matches.append(matches)
-
-    return serialized_matches
+        return serialized_matches
