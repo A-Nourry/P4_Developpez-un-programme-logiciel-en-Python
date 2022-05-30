@@ -1,5 +1,10 @@
 class UserView:
     def prompt_new_player():
+        """get inputs from the user and returns them in a dict
+
+        Returns:
+            dict: dict of Player instance attributes
+        """
         first_name = input("Prénom du joueur: ")
         last_name = input("Nom du joueur: ")
         birth_date = input("Date de naissance: ")
@@ -23,6 +28,11 @@ class UserView:
         }
 
     def prompt_for_tournament():
+        """get inputs from the user and returns them in a dict
+
+        Returns:
+            dict: dict of a Tournament instance attributes
+        """
         tournament_name = input("Nom du tournoi: ")
         tournament_location = input("Lieu du tournoi: ")
         tournament_date = input("Date du tournoi: ")
@@ -48,6 +58,14 @@ class UserView:
         }
 
     def prompt_player_score(match_player):
+        """get player score from an input and return it
+
+        Args:
+            match_player (Match): Match player attribute ( .player_one or .player_two)
+
+        Returns:
+            float: player score
+        """
         player_score = ""
 
         while True:
@@ -64,6 +82,17 @@ class UserView:
         return player_score
 
     def prompt_player_rank(player):
+        """get player's rank from user input and returns it
+
+        Args:
+            player (object): player's instance
+
+        Raises:
+            ValueError: raise an error in the user input is not an int between 1 and 8
+
+        Returns:
+            int: return the user input
+        """
 
         rank = ""
 
@@ -88,6 +117,12 @@ class UserView:
         return tournament_description
 
     def prompt_warning_number_players(max_number_players, tournament_players):
+        """print a warning if there's not enough players
+
+        Args:
+            max_number_players (int): number of players required in a tournament
+            tournament_players (_type_): number of players of a tournament
+        """
         print("Attention : ")
         print(
             f"Pour inscrire des joueurs à ce tournoi, vous devez avoir créé au minimum {max_number_players} "
@@ -98,8 +133,21 @@ class UserView:
         input("Appuyer sur ENTRER pour retourner au menu")
 
     def display_message(message):
+        """print a message
+
+        Args:
+            message (str): message you want to print
+        """
         print(message)
 
     def input_message(message):
+        """get an input and returns it
+
+        Args:
+            message (str): message you want to display before the input
+
+        Returns:
+            str: returns the user input
+        """
         user_input = input(message)
         return user_input
