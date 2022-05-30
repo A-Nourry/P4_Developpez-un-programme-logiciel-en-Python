@@ -22,7 +22,7 @@ Cette application permet de créer des tournois entre plusieurs joueurs et de g�
 - Une fois le tournoi créé et sélectionné, vous aller pouvoir démarrer le tournoi ce qui exécutera un nombre de tours préalablement défini.
 - À chaque tours, le programme générera des paires de joueurs suivant leur classement. Ensuite, à la fin de chaque tour, vous pourrez entrer les résultats de chaque match.
 
-Une fois le tournoi terminé, vous aurez la possibilité d'afficher les différents rapports du tournoi, de le rejouer, d'en créer un nouveau ou d'en sélectionner un autre.
+Une fois le tournoi terminé, vous aurez la possibilité d'afficher les différents rapports du tournoi, d'en créer un nouveau ou d'en sélectionner un autre.
 
 Pour plus de précisions, veuillez vous référer à la notice d'utilisation qui suit.
 
