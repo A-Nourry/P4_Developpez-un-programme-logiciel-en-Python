@@ -135,8 +135,6 @@ Description:
 - Nombre de tours : entrez le nombre de tours pour ce tournoi. Vous devez au minimum mettre 1.
 - Description: entrez la description du tournoi.
 
-*à finir...*
-
 ## 2. Menu Joueurs
 ```
 ------------
