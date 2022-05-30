@@ -647,7 +647,7 @@ class Controller:
             if user_input in self.MAIN_MENU.keys():
                 self.MAIN_MENU[user_input]()
 
-            elif user_input == 4:
+            elif user_input == 3:
                 loop = False
 
     def menu_tournament(self):
