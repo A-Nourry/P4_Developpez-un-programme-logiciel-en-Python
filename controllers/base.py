@@ -469,6 +469,8 @@ class Controller:
         match.player_one.update("match_score", match.player_one.match_score)
         match.player_two.update("match_score", match.player_two.match_score)
 
+        self.get_match_players_ids(match)
+
     def get_match_players_instances(self, match: Match):
         """get players instances from the current tournament players dict
 
@@ -476,18 +478,18 @@ class Controller:
             match (Match): current match
         """
 
-        match.player_one = self.current_tournament.players[str(match.player_one)]
-        match.player_two = self.current_tournament.players[str(match.player_two)]
+        match.player_one = self.players_dict[match.player_one]
+        match.player_two = self.players_dict[match.player_two]
 
     def get_match_players_ids(self, match: Match):
-        """get players ids from current tournament players dict
+        """get players ids from Player.p_id
 
         Args:
             match (Match): current match
         """
 
-        match.player_one = self.current_tournament.players[int(match.player_one)]
-        match.player_two = self.current_tournament.players[int(match.player_two)]
+        match.player_one = match.player_one.p_id
+        match.player_two = match.player_two.p_id
 
     # Round functions
     def generate_tournament_rounds(self):
@@ -868,6 +870,10 @@ class Controller:
                 tabulate(info_matches, headers="keys", tablefmt="grid")
             )
             self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
+
+        for rounds in self.current_tournament.rounds:
+            for matches in rounds.list_of_matches:
+                self.get_match_players_ids(matches)
 
         for rounds in self.current_tournament.rounds:
             self.get_round_matches_ids(rounds)
