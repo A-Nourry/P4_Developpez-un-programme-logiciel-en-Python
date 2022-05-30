@@ -3,7 +3,7 @@ class Menu:
         """_instantiate a menu with an undefined number of options. Must have at least one option._
 
         Args:
-            menu_title (_type_): _put the menu title here_
+            menu_title (str): _put the menu title here_
         """
         self.menu_title = menu_title
 
@@ -14,6 +14,8 @@ class Menu:
             self.menu_options[key] = option
 
     def print_menu(self):
+        """displays the menu
+        """
         separators = "-" * len(self.menu_title)
         print(separators)
         print(self.menu_title)
@@ -23,6 +25,11 @@ class Menu:
             print(f"[{key}] {value}")
 
     def start_menu(self) -> int:
+        """get an input from the user and returns it
+
+        Returns:
+            int: user input
+        """
         while True:
             self.print_menu()
             option = ""
