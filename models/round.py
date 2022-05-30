@@ -95,15 +95,15 @@ class Round:
     def __str__(self):
         return self.name
 
+    @staticmethod
+    def load_rounds():
+        """get round attributes from the data base
 
-def load_rounds():
-    """get round attributes from the data base
+        Returns:
+            dict: returns a dict of rounds attributes
+        """
+        serialized_rounds = []
+        for rounds in rounds_table:
+            serialized_rounds.append(rounds)
 
-    Returns:
-        dict: returns a dict of rounds attributes
-    """
-    serialized_rounds = []
-    for rounds in rounds_table:
-        serialized_rounds.append(rounds)
-
-    return serialized_rounds
+        return serialized_rounds
