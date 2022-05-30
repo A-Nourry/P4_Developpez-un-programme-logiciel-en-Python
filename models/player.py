@@ -33,7 +33,7 @@ class Player:
         self.rank = rank
         self.p_id = p_id
 
-        self.score = 0.0
+        self.match_score = 0.0
 
     def display_player(self):
         """display player instance's attributes in a dict
@@ -47,7 +47,7 @@ class Player:
             "Date de naissance": self.birth_date,
             "Sexe": self.gender,
             "Classement": self.rank,
-            "Score": self.score,
+            "Score": self.match_score,
         }
 
     def save(self):
@@ -58,7 +58,7 @@ class Player:
             "birth_date": self.birth_date,
             "gender": self.gender,
             "rank": self.rank,
-            "score": self.score,
+            "match_score": self.match_score,
             "p_id": self.p_id,
         }
 
@@ -76,15 +76,15 @@ class Player:
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
 
+    @staticmethod
+    def load_players():
+        """get player instances attributes from the players table of the data base
 
-def load_players():
-    """get player instances attributes from the players table of the data base
+        Returns:
+            dict: player instance attributes in a dict
+        """
+        players = []
+        for player in players_table:
+            players.append(player)
 
-    Returns:
-        dict: player instance attributes in a dict
-    """
-    players = []
-    for player in players_table:
-        players.append(player)
-
-    return players
+        return players
