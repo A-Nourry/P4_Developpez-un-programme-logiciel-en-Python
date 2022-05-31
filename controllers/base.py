@@ -222,7 +222,7 @@ class Controller:
                     ):
                         player_selection_loop = False
 
-    def add_player_to_tournament(self, user_input, player_id):
+    def add_player_to_tournament(self, user_input: int, player_id: int):
         """add a selected player to the current tournament player dict
 
         Args:
@@ -252,7 +252,7 @@ class Controller:
                 )
                 break
 
-    def first_round_pairs(self, player_dict):
+    def first_round_pairs(self, player_dict: dict):
         """generate pairs of players by ranks
 
         Args:
@@ -282,7 +282,7 @@ class Controller:
 
         return first_pair, second_pair, third_pair, fourth_pair
 
-    def round_pairs(self, player_dict):
+    def round_pairs(self, player_dict: dict):
         """generates pairs of players by score and ranks
 
         Args:
@@ -447,15 +447,16 @@ class Controller:
             )
 
     # Matches functions
-    def new_match(self, player_one, player_two, match_round: Round):
+    def new_match(self, player_one: Player, player_two: Player, match_round: Round):
         """instantiates Match object and add it to the controller matches dict
          and adds the match id to the list of matches of a Round object.
 
         Args:
-            pair_of_players (list): list of two players
-            match_id (Match.m_id): id of the match
+            player_one (Player): Player instance
+            player_two (Player): Player instance
             match_round (Round): Round instance
         """
+
         new_match_id = len(self.matches_dict) + 1
 
         if match_round is not None:
@@ -558,12 +559,12 @@ class Controller:
 
             self.rounds_dict[new_round.r_id] = new_round
 
-    def start_rounds(self, tournament_round: Round, round_number):
+    def start_rounds(self, tournament_round: Round, round_number: int):
         """timestamps the start time of the current round
 
         Args:
             tournament_round (Round): current round
-            round_number (_type_): number of the current round
+            round_number (int): number of the current round
         """
         self.view.display_message(f"TOUR {round_number}")
 
@@ -577,12 +578,12 @@ class Controller:
         self.view.display_message("------------------------------------------")
         sleep(0.5)
 
-    def end_rounds(self, tournament_round, round_number):
+    def end_rounds(self, tournament_round, round_number: int):
         """timestamps the end time of the current round
 
         Args:
             tournament_round (Round): current round
-            round_number (_type_): number of the current round
+            round_number (int): number of the current round
         """
         sleep(0.5)
         self.view.display_message("--------------")
@@ -621,7 +622,7 @@ class Controller:
 
         self.get_round_matches_ids(new_round)
 
-    def play_next_round(self, new_round):
+    def play_next_round(self, new_round: Round):
         """play the current round of the current tournament
         Args:
             new_round (Round): current round

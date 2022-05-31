@@ -9,11 +9,11 @@ tournaments = Query()
 class Tournament:
     def __init__(
         self,
-        name,
-        location,
-        date,
-        time_rule,
-        description,
+        name: str,
+        location: str,
+        date: str,
+        time_rule: str,
+        description: str,
         max_number_player=8,
         number_of_rounds=4,
         t_id=0,

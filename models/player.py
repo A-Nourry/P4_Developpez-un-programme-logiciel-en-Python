@@ -10,11 +10,11 @@ class Player:
     def __init__(
         self,
         first_name: str,
-        last_name,
-        birth_date,
-        gender,
+        last_name: str,
+        birth_date: str,
+        gender: str,
         rank: int = 1,
-        p_id=0,
+        p_id: int = 0,
     ):
         """player instance attributes
 

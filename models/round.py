@@ -8,12 +8,12 @@ rounds = Query()
 
 
 class Round:
-    def __init__(self, name, r_id):
+    def __init__(self, name: str, r_id: int = 0):
         """round instance attributes
 
         Args:
             name (str): name of the round
-            r_id (int): id of the round
+            r_id (int, optional): id of the round
         """
         self.name = name
         self.r_id = r_id

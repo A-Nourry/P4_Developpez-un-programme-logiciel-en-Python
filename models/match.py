@@ -7,12 +7,13 @@ matches = Query()
 
 
 class Match:
-    def __init__(self, player_one, player_two, m_id):
+    def __init__(self, player_one: object, player_two: object, m_id: int = 0):
         """Match instance attributes
 
         Args:
-            player_one (instance):instance of Player
-            player_two (instance):instance of Player
+            player_one (object): Player instance
+            player_two (object): Player instance
+            m_id (int, optional): match id. Defaults to 0.
         """
         self.player_one = player_one
         self.player_two = player_two
