@@ -10,6 +10,7 @@
         - [Joueurs](#joueurs)
     - [1.2 Nouveau tournoi](#12-nouveau-tournoi)
   - [2. Menu Joueurs](#2-menu-joueurs)
+  - [3. Menu Options](#3-menu-options)
 - [Générer un nouveau fichier flake8-html](#générer-un-nouveau-fichier-flake8-html)
 
 # Application d'organisateur de tournois d'échecs
@@ -47,9 +48,9 @@ MENU PRINCIPAL
 [2] Joueurs
 [3] Quitter
 ```
-- 1 -- Permet de voir la liste des tournois, d'en ajouter, et de les jouer.
-- 2 -- Permet de voir la liste des joueurs et d'en ajouter.
-- 3 -- Sélectionnez ce choix si vous souhaitez quitter l'application
+- 1 - Permet de voir la liste des tournois, d'en ajouter, et de les jouer.
+- 2 - Permet de voir la liste des joueurs et d'en ajouter.
+- 3 - Sélectionnez ce choix si vous souhaitez quitter l'application
   
 ## 1. Menu Tournoi
 ```
@@ -61,21 +62,21 @@ MENU TOURNOI
 [3] Rapport des tournois
 [4] Retour
 ```
-- 1 -- Permet de voir la liste des tournois et d'en sélectionner un.
-- 2 -- Permet de créer un nouveau tournoi
-- 3 -- Permet d'afficher un rapport des tournois créé
-- 4 -- Permet de retourner au menu principal
+- 1 - Permet de voir la liste des tournois et d'en sélectionner un.
+- 2 - Permet de créer un nouveau tournoi
+- 3 - Permet d'afficher un rapport des tournois créé
+- 4 - Permet de retourner au menu principal
 
 ### 1.1 Liste des tournois
 ```
 ---------------------------------------------------------------------
 LISTE DES TOURNOIS : veuillez sélectionner un tournoi pour commencer.
 ---------------------------------------------------------------------
-[1] -- Tournoi 1
-[2] -- Tournoi 2
-[3] -- Tournoi 3
+[1] Tournoi 1
+[2] Tournoi 2
+[3] Tournoi 3
 ...
-[n] -- Retour
+[n] Retour
 ```
 Pour sélectionner un tournoi créé, il suffit d'entrer le choix qui correspond pour accéder au tournoi voulu.
 
@@ -93,13 +94,13 @@ MENU DU TOURNOI : *Tournoi sélectionné*
 [5] Description
 [6] Retour
 ```
-- 1 -- Permet de démarrer le tournoi :
+- 1 - Permet de démarrer le tournoi :
   - Les tours vont être joués un à un et l'utilisateur pourra entrer les résultats des matchs à la fin de chaque tour.
-- 2 -- Permet de voir les joueurs attribués au tournoi.
-- 3 -- Permet de voir le rapport des tours joué du tournoi sélectionné.
-- 4 -- Permet de voir le rapport des matchs joué du tournoi sélectionné.
-- 5 -- Permet de voir ou de modifier la description du tournoi sélectionné.
-- 6 -- Permet de revenir à la liste des tournois.
+- 2 - Permet de voir les joueurs attribués au tournoi.
+- 3 - Permet de voir le rapport des tours joué du tournoi sélectionné.
+- 4 - Permet de voir le rapport des matchs joué du tournoi sélectionné.
+- 5 - Permet de voir ou de modifier la description du tournoi sélectionné.
+- 6 - Permet de revenir à la liste des tournois.
   
 ##### Joueurs
 ```
@@ -111,10 +112,10 @@ JOUEURS DU TOURNOI
 [3] Mise à jour du classement
 [4] Retour
 ```
-- 1 -- Permet de voir la liste des joueurs du tournoi.
-- 2 -- Permet d'inscrire les joueurs du tournoi
-- 3 -- Permet de mettre à jour les classements de chaque joueur
-- 4 -- Permet de retourner au menu du tournoi
+- 1 - Permet de voir la liste des joueurs du tournoi.
+- 2 - Permet d'inscrire les joueurs du tournoi
+- 3 - Permet de mettre à jour les classements de chaque joueur
+- 4 - Permet de retourner au menu du tournoi
 
 ### 1.2 Nouveau tournoi
 Lorsque vous souhaitez créer un nouveau tournoi, plusieurs informations vous seront demandées :
@@ -148,6 +149,23 @@ MENU JOUEURS
 - 2 - Permet d'ajouter un joueur
 - 3 - Permet de retourner au menu principal
 
+## 3. Menu Options
+```
+------------
+MENU OPTIONS
+------------
+[1] Sauvegarder
+[2] Charger
+[3] Retour
+```
+- 1 - Permet de sauvegarder toutes les données. 
+  
+**Attention ! Les anciennes données sauvegardées seront supprimées !**
+- 2 - Permet de charger les données précédemment sauvegardées.
+  
+**Attention ! Les données actuelles de l'application seront supprimées !**
+- 3 - Permet de revenir au menu principal.
+
 # Générer un nouveau fichier flake8-html
 
 Pour générer un fichier flake8-html, il faut commencer par installer le paquet avec la commande:
@@ -156,7 +174,7 @@ pip install flake8-html
 ```
 Si vous utilisez l'environnement virtuel du code d'application comme expliqué [ici](https://github.com/A-Nourry/P4_Developpez-un-programme-logiciel-en-Python/wiki#comment-d%C3%A9marrer-lapplication-de-tournoi-d%C3%A9checs), le paquet sera déjà présent !
 
-ensuite il suffit de taper la commande suivante pour générer le fichier .html qui contiendra le rapport:
+ensuite il suffit de taper la commande suivante pour générer le fichier **.html** qui contiendra le rapport:
 ```
 flake8 --format=html --htmldir=flake8_rapport --max-line-length 119 --exclude env
 ```
