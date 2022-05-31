@@ -25,6 +25,8 @@ Cette application permet de créer des tournois entre plusieurs joueurs et de g�
 
 Une fois le tournoi terminé, vous aurez la possibilité d'afficher les différents rapports du tournoi, d'en créer un nouveau ou d'en sélectionner un autre.
 
+Vous aurez aussi la possibilité de **sauvegarder** ou **charger** vos données dans le [menu options](https://github.com/A-Nourry/P4_Developpez-un-programme-logiciel-en-Python#3-menu-options).
+
 Pour plus de précisions, veuillez vous référer à la notice d'utilisation qui suit.
 
 
