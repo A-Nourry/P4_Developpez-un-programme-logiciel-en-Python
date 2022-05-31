@@ -119,3 +119,7 @@ class Tournament:
             serialized_tournaments.append(tournaments)
 
         return serialized_tournaments
+
+    @staticmethod
+    def erase_data():
+        tournaments_table.truncate()

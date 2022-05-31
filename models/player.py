@@ -9,7 +9,7 @@ players = Query()
 class Player:
     def __init__(
         self,
-        first_name,
+        first_name: str,
         last_name,
         birth_date,
         gender,
@@ -88,3 +88,7 @@ class Player:
             players.append(player)
 
         return players
+
+    @staticmethod
+    def erase_data():
+        players_table.truncate()

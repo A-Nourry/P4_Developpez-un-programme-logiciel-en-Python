@@ -107,3 +107,7 @@ class Round:
             serialized_rounds.append(rounds)
 
         return serialized_rounds
+
+    @staticmethod
+    def erase_data():
+        rounds_table.truncate()

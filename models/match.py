@@ -27,16 +27,14 @@ class Match:
         )
 
     def display_match_result(self):
-        """display match results in a dict
-        """
+        """display match results in a dict"""
         return {
             "Matchs": f"{self.player_one} contre {self.player_two}",
             "Résultats": f"{self.player_one_score} - {self.player_two_score}",
         }
 
     def save(self):
-        """save Match attributes in the data base
-        """
+        """save Match attributes in the data base"""
         serialized_match = {
             "player_one": self.player_one,
             "player_two": self.player_two,
@@ -71,3 +69,7 @@ class Match:
             serialized_matches.append(matches)
 
         return serialized_matches
+
+    @staticmethod
+    def erase_data():
+        matches_table.truncate()
