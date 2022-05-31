@@ -23,6 +23,7 @@ class Controller:
         self.MAIN_MENU = {
             1: self.menu_tournament,
             2: self.menu_players,
+            3: self.menu_options,
         }
 
         self.MENU_TOURNAMENT = {
@@ -50,6 +51,47 @@ class Controller:
 
         self.current_tournament = None
 
+    def erase_all_dict(self):
+        """reset all dicts of the controller"""
+
+        self.players_dict = {}
+        self.tournament_dict = {}
+        self.rounds_dict = {}
+        self.matches_dict = {}
+
+    def load_all_data(self):
+        """loads all instances from the data base and and them to the controller dicts"""
+
+        self.get_players()
+        self.get_tournament()
+        self.get_rounds()
+        self.get_matches()
+
+        return True
+
+    def save_all_data(self):
+        """saves all instances of the controller's dicts"""
+
+        for players in self.players_dict.values():
+            players.save()
+
+        for tournaments in self.tournament_dict.values():
+            tournaments.save()
+
+        for rounds in self.rounds_dict.values():
+            rounds.save()
+
+        for matches in self.matches_dict.values():
+            matches.save()
+
+    def erase_all_data(self):
+        """erase all the saved data"""
+
+        Player.erase_data()
+        Tournament.erase_data()
+        Round.erase_data()
+        Match.erase_data()
+
     # Player functions
     def add_player(self):
         """add a new player to the controller players_dict"""
@@ -66,7 +108,6 @@ class Controller:
         )
 
         self.players_dict[player.p_id] = player
-        player.save()
 
         return True
 
@@ -289,7 +330,6 @@ class Controller:
         )
 
         self.tournament_dict[tournament.t_id] = tournament
-        tournament.save()
 
         return tournament
 
@@ -424,8 +464,6 @@ class Controller:
             match_round.add_match_to_list(match.m_id, match_round.r_id)
             self.matches_dict[match.m_id] = match
 
-            match.save()
-
             return True
 
     def get_matches(self):
@@ -553,7 +591,6 @@ class Controller:
         sleep(0.5)
 
         tournament_round.end_timestamp()
-        tournament_round.save()
 
         self.view.display_message(f"début du tour: {tournament_round.start_time}")
         self.view.display_message(f"Fin du tour: {tournament_round.end_time}")
@@ -640,6 +677,7 @@ class Controller:
                 "MENU PRINCIPAL",
                 "Tournois",
                 "Joueurs",
+                "Options",
                 "Quitter",
             )
             user_input = menu.start_menu()
@@ -647,7 +685,56 @@ class Controller:
             if user_input in self.MAIN_MENU.keys():
                 self.MAIN_MENU[user_input]()
 
-            elif user_input == 3:
+            elif user_input == 4:
+                loop = False
+
+    def menu_options(self):
+        """Start and display the options menu : MENU OPTIONS"""
+        menu_options = self.menu_view(
+            "MENU OPTIONS",
+            "Sauvegarder",
+            "Charger",
+            "Retour",
+        )
+
+        loop = True
+
+        while loop:
+            menu_choice = menu_options.start_menu()
+
+            if menu_choice == 1:
+                choice = self.view.input_message(
+                    "Etes vous sur de vouloir sauvegarder les données ?"
+                    "Les données précédement sauvegardé seront supprimées. (y: oui / n: non)"
+                )
+                if choice == "y":
+                    self.erase_all_data()
+                    self.save_all_data()
+
+                    self.view.display_message("Les données ont bien été sauvegardé")
+
+                elif choice == "n":
+                    continue
+
+                else:
+                    self.view.display_message("Saisissez 'y' ou 'n' pour continuer")
+
+            elif menu_choice == 2:
+                choice = self.view.input_message(
+                    "Etes vous sur de vouloir charger les données ? Les données actuelles seront supprimées."
+                    "(y: oui / n: non)"
+                )
+                if choice == "y":
+                    self.load_all_data()
+                    self.get_players()
+                    self.view.display_message("Les données ont bien été chargé")
+
+                elif choice == "n":
+                    continue
+                else:
+                    self.view.display_message("Saisissez 'y' ou 'n' pour continuer")
+
+            elif menu_choice == 3:
                 loop = False
 
     def menu_tournament(self):
@@ -904,10 +991,4 @@ class Controller:
         self.get_tournament_players_ids(self.current_tournament)
 
     def run(self):
-        """loads data and run the main menu"""
-        self.get_players()
-        self.get_tournament()
-        self.get_rounds()
-        self.get_matches()
-
         self.main_menu()
