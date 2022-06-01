@@ -317,7 +317,9 @@ class Controller:
         """instantiate a Tournament object and add it to the controller's tournament dictionnary"""
         sleep(0.3)
         self.view.display_message("Création d'un nouveau tournoi : ")
+        self.view.display_message("")
         new_tournament = self.view.prompt_for_tournament()
+        self.view.display_message("")
 
         tournament = Tournament(
             name=new_tournament["name"],
@@ -435,9 +437,11 @@ class Controller:
         """show the current tournament description"""
         self.view.display_message(self.current_tournament.description)
 
+        self.view.display_message("")
         user_input = self.view.input_message(
             "[Entrer] : revenir au menu | [m] : modifier la description "
         )
+        self.view.display_message("")
 
         if user_input == "m":
             new_description = self.view.prompt_description(self.current_tournament)
@@ -687,7 +691,22 @@ class Controller:
                 self.MAIN_MENU[user_input]()
 
             elif user_input == 4:
-                loop = False
+                choice = self.view.input_message(
+                    "Voulez-vous sauvegarder avant de quitter ? "
+                    "Les données précédement sauvegardé seront écrasées. (y: oui / n: non) "
+                )
+                if choice == "y":
+                    self.erase_all_data()
+                    self.save_all_data()
+
+                    self.view.display_message("Les données ont bien été sauvegardé")
+                    self.view.display_message("")
+
+                    loop = False
+
+                elif choice == "n":
+                    self.view.display_message("")
+                    loop = False
 
     def menu_options(self):
         """Start and display the options menu : MENU OPTIONS"""
@@ -705,8 +724,8 @@ class Controller:
 
             if menu_choice == 1:
                 choice = self.view.input_message(
-                    "Etes vous sur de vouloir sauvegarder les données ?"
-                    "Les données précédement sauvegardé seront supprimées. (y: oui / n: non)"
+                    "Etes vous sur de vouloir sauvegarder les données ? "
+                    "Les données précédement sauvegardé seront écrasées. (y: oui / n: non) "
                 )
                 if choice == "y":
                     self.erase_all_data()
@@ -722,8 +741,8 @@ class Controller:
 
             elif menu_choice == 2:
                 choice = self.view.input_message(
-                    "Etes vous sur de vouloir charger les données ? Les données actuelles seront supprimées."
-                    "(y: oui / n: non)"
+                    "Etes vous sur de vouloir charger les données ? Les données actuelles seront écrasées. "
+                    "(y: oui / n: non) "
                 )
                 if choice == "y":
                     self.load_all_data()
@@ -779,9 +798,11 @@ class Controller:
             elif menu_choice == 2:  # Add a player
                 while True:
                     self.add_player()
+                    self.view.display_message("")
                     user_input = self.view.input_message(
                         "Voulez vous ajouter un autre joueur ? (y: oui / n: non)"
                     )
+                    self.view.display_message("")
 
                     if user_input == "y":
                         continue
@@ -801,6 +822,7 @@ class Controller:
         if not self.tournament_dict:
             self.view.display_message("il n'y a pas encore de tournois de créé !")
             self.view.input_message("Appuyer sur ENTRER pour continuer")
+            self.view.display_message("")
             loop = False
 
         else:
@@ -892,7 +914,9 @@ class Controller:
             self.view.display_message(
                 tabulate(info_players, headers="keys", tablefmt="grid")
             )
+            self.view.display_message("")
             self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
+            self.view.display_message("")
 
     def tournaments_report(self):
         """displays tournaments reports"""
@@ -910,7 +934,9 @@ class Controller:
             self.view.display_message(
                 tabulate(info_tournaments, headers="keys", tablefmt="grid")
             )
+            self.view.display_message("")
             self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
+            self.view.display_message("")
 
     def current_tournament_rounds_report(self):
         """displays rounds reports of the current tournament"""
@@ -930,7 +956,9 @@ class Controller:
             self.view.display_message(
                 tabulate(info_rounds, headers="keys", tablefmt="grid")
             )
+            self.view.display_message("")
             self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
+            self.view.display_message("")
 
         self.get_tournament_rounds_ids(self.current_tournament)
 
@@ -957,7 +985,9 @@ class Controller:
             self.view.display_message(
                 tabulate(info_matches, headers="keys", tablefmt="grid")
             )
+            self.view.display_message("")
             self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
+            self.view.display_message("")
 
         for rounds in self.current_tournament.rounds:
             for matches in rounds.list_of_matches:
@@ -987,9 +1017,13 @@ class Controller:
             self.view.display_message(
                 tabulate(info_players, headers="keys", tablefmt="grid")
             )
+            self.view.display_message("")
             self.view.input_message("Appuyer sur ENTRER pour revenir au menu")
+            self.view.display_message("")
 
         self.get_tournament_players_ids(self.current_tournament)
 
     def run(self):
+        self.view.welcome_message()
+
         self.main_menu()
