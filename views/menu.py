@@ -17,12 +17,13 @@ class Menu:
         """displays the menu
         """
         separators = "-" * len(self.menu_title)
-        print(separators)
-        print(self.menu_title)
-        print(separators)
+        print(" ", separators)
+        print(" ", self.menu_title)
+        print(" ", separators)
 
         for key, value in self.menu_options.items():
-            print(f"[{key}] {value}")
+            print(" ", f"[{key}] {value}")
+        print("")
 
     def start_menu(self) -> int:
         """get an input from the user and returns it
@@ -35,6 +36,7 @@ class Menu:
             option = ""
             try:
                 option = int(input("Saisissez votre choix: "))
+                print("")
             except ValueError:
                 print(
                     f"Wrong input. Please enter a number between 1 and {len(self.menu_options)}..."
