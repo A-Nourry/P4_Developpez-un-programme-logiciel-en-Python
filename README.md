@@ -48,11 +48,13 @@ MENU PRINCIPAL
 --------------
 [1] Tournois
 [2] Joueurs
-[3] Quitter
+[3] Options
+[4] Quitter
 ```
 - 1 - Permet de voir la liste des tournois, d'en ajouter, et de les jouer.
 - 2 - Permet de voir la liste des joueurs et d'en ajouter.
-- 3 - Sélectionnez ce choix si vous souhaitez quitter l'application
+- 3 - Permet d'accéder aux options pour sauvegarder ou charger vos données.
+- 4 - Sélectionnez ce choix si vous souhaitez quitter l'application.
   
 ## 1. Menu Tournoi
 ```
@@ -65,9 +67,9 @@ MENU TOURNOI
 [4] Retour
 ```
 - 1 - Permet de voir la liste des tournois et d'en sélectionner un.
-- 2 - Permet de créer un nouveau tournoi
-- 3 - Permet d'afficher un rapport des tournois créé
-- 4 - Permet de retourner au menu principal
+- 2 - Permet de créer un nouveau tournoi.
+- 3 - Permet d'afficher un rapport des tournois créé.
+- 4 - Permet de retourner au menu principal.
 
 ### 1.1 Liste des tournois
 ```
@@ -115,9 +117,9 @@ JOUEURS DU TOURNOI
 [4] Retour
 ```
 - 1 - Permet de voir la liste des joueurs du tournoi.
-- 2 - Permet d'inscrire les joueurs du tournoi
-- 3 - Permet de mettre à jour les classements de chaque joueur
-- 4 - Permet de retourner au menu du tournoi
+- 2 - Permet d'inscrire les joueurs du tournoi.
+- 3 - Permet de mettre à jour les classements de chaque joueur.
+- 4 - Permet de retourner au menu du tournoi.
 
 ### 1.2 Nouveau tournoi
 Lorsque vous souhaitez créer un nouveau tournoi, plusieurs informations vous seront demandées :
@@ -131,9 +133,9 @@ règle du tournoi ? (bullet, blitz ou speed)
 Nombre de tours:
 Description:
 ```
-- Nom du tournoi : entrez le nom du tournoi
-- Lieu du tournoi : entrez le lieu du tournoi
-- Date du tournoi : saisissez la date du tournoi au format xx/xx/xx
+- Nom du tournoi : entrez le nom du tournoi.
+- Lieu du tournoi : entrez le lieu du tournoi.
+- Date du tournoi : saisissez la date du tournoi au format xx/xx/xx.
 - Règle du tournoi ? (bullet, blitz ou speed): saisissez la règle du tournoi.
 - Nombre de tours : entrez le nombre de tours pour ce tournoi. Vous devez au minimum mettre 1.
 - Description: entrez la description du tournoi.
@@ -147,9 +149,9 @@ MENU JOUEURS
 [2] Ajouter un joueur
 [3] Retour
 ```
-- 1 - Permet d'afficher la liste des joueurs
-- 2 - Permet d'ajouter un joueur
-- 3 - Permet de retourner au menu principal
+- 1 - Permet d'afficher la liste des joueurs.
+- 2 - Permet d'ajouter un joueur.
+- 3 - Permet de retourner au menu principal.
 
 ## 3. Menu Options
 ```
