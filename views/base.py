@@ -151,3 +151,11 @@ class UserView:
         """
         user_input = input(message)
         return user_input
+
+    def welcome_message():
+        print("")
+        print("Organisateur de tournois d'échecs 1.0.0")
+        print("Projet 4 d'OpenClassrooms.")
+        print("")
+        print("https://github.com/A-Nourry/P4_Developpez-un-programme-logiciel-en-Python")
+        print("")
